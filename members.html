@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구성원 | 고온재료연구실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--radius:1rem;--accent:#e8531e;--accent2:#f07840;--accent3:#ff9a5c;--gold:#c9933a;--mono:'IBM Plex Mono',monospace;--serif:'Playfair Display',serif;--sans:'Noto Sans KR',sans-serif;--display:'Bebas Neue',sans-serif;}
+[data-theme="dark"]{--bg:#09090c;--bg2:#0e0f14;--bg3:#13141a;--border-c:rgba(255,255,255,0.07);--border2-c:rgba(255,255,255,0.15);--text:#eceae4;--text2:rgba(236,234,228,0.62);--text3:rgba(236,234,228,0.32);--glass-bg:rgba(255,255,255,0.025);--glass-str:rgba(255,255,255,0.055);--shadow:0 8px 48px rgba(0,0,0,0.7);--nav-bg:rgba(9,9,12,0.85);--accent-glass:rgba(232,83,30,0.10);--accent-glass2:rgba(232,83,30,0.18);}
+[data-theme="light"]{--bg:#f5f3ef;--bg2:#edeae4;--bg3:#e3dfd8;--border-c:rgba(0,0,0,0.07);--border2-c:rgba(0,0,0,0.14);--text:#1a1510;--text2:rgba(26,21,16,0.62);--text3:rgba(26,21,16,0.36);--glass-bg:rgba(255,255,255,0.50);--glass-str:rgba(255,255,255,0.80);--shadow:0 8px 40px rgba(0,0,0,0.10);--nav-bg:rgba(245,243,239,0.88);--accent-glass:rgba(232,83,30,0.08);--accent-glass2:rgba(232,83,30,0.14);}
+.glass{background:var(--glass-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--radius);position:relative;overflow:hidden;}
+.glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(255,255,255,0.28) 0%,rgba(232,83,30,0.12) 30%,transparent 55%,rgba(232,83,30,0.08) 80%,rgba(255,255,255,0.20) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;}
+.glass-strong{background:var(--glass-str);backdrop-filter:blur(44px);-webkit-backdrop-filter:blur(44px);border-radius:var(--radius);position:relative;overflow:hidden;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,0.18);}
+.glass-strong::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(160deg,rgba(255,255,255,0.50) 0%,rgba(232,83,30,0.18) 20%,transparent 50%,rgba(232,83,30,0.12) 78%,rgba(255,255,255,0.42) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;transition:background .35s,color .35s;}
+a{color:inherit;text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-c);transition:background .35s;}
+.nav-logo{display:flex;align-items:center;gap:14px;}
+.logo-hex{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent2));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-hex span{font-family:var(--display);font-size:12px;color:#fff;letter-spacing:.03em;}
+.nav-lab-name{display:flex;flex-direction:column;line-height:1.2;}
+.nav-lab-name .n1{font-family:var(--display);font-size:15px;letter-spacing:.12em;color:var(--text);}
+.nav-lab-name .n2{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--text3);}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-theme-pill{display:flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;cursor:pointer;border:1px solid var(--border-c);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);background:var(--glass-bg);transition:all .25s;}
+.nav-theme-pill svg{width:13px;height:13px;}
+.nav-theme-pill:hover{color:var(--text);background:var(--glass-str);}
+.page-header{padding:140px 80px 56px;background:var(--bg2);position:relative;overflow:hidden;}
+.page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(232,83,30,.09) 0%,transparent 65%);}
+.ph-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;position:relative;}
+.ph-h1{font-family:var(--display);font-size:clamp(48px,5vw,80px);letter-spacing:.05em;line-height:.95;color:var(--text);margin-bottom:20px;position:relative;}
+.ph-stats{display:flex;gap:36px;flex-wrap:wrap;position:relative;}
+.ph-stat{display:flex;flex-direction:column;gap:3px;}
+.ph-stat-num{font-family:var(--display);font-size:38px;letter-spacing:.06em;color:var(--accent);line-height:1;}
+.ph-stat-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);}
+.page-main{padding:56px 80px 100px;}
+.excel-bar{display:flex;align-items:center;gap:14px;padding:16px 22px;border-radius:14px;margin-bottom:40px;}
+.excel-icon{width:40px;height:40px;background:rgba(30,180,100,.12);border:1px solid rgba(30,180,100,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+.excel-info{flex:1;}
+.excel-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.excel-sub{font-family:var(--mono);font-size:9.5px;color:var(--text3);letter-spacing:.04em;}
+.excel-btns{display:flex;gap:8px;flex-shrink:0;}
+.btn-xls{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-xls.upload{background:rgba(30,180,100,.15);border:1px solid rgba(30,180,100,.3);color:#4ade80;}
+.btn-xls.upload:hover{background:rgba(30,180,100,.28);}
+.btn-xls.tmpl{background:var(--glass-bg);border:1px solid var(--border-c);color:var(--text2);}
+.btn-xls.tmpl:hover{background:var(--glass-str);color:var(--text);}
+.btn-xls svg{width:13px;height:13px;flex-shrink:0;}
+#excelFileInput{display:none;}
+.upload-status{padding:10px 16px;border-radius:8px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;margin-bottom:12px;display:none;}
+.upload-status.ok{background:rgba(30,180,100,.12);border:1px solid rgba(30,180,100,.25);color:#4ade80;}
+.upload-status.err{background:rgba(232,83,30,.12);border:1px solid rgba(232,83,30,.25);color:var(--accent2);}
+.filter-row{display:flex;gap:6px;margin-bottom:36px;flex-wrap:wrap;}
+.ftab{padding:7px 18px;border-radius:100px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border-c);background:var(--glass-bg);color:var(--text2);transition:all .2s;}
+.ftab:hover,.ftab.active{background:var(--accent-glass2);border-color:rgba(232,83,30,.35);color:var(--accent2);}
+.prof-card{display:grid;grid-template-columns:260px 1fr;gap:36px;padding:32px;border-radius:20px;margin-bottom:52px;}
+.pc-left{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.pc-avatar{width:130px;height:130px;border-radius:50%;border:2.5px solid var(--accent);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:46px;color:var(--accent);overflow:hidden;cursor:pointer;position:relative;transition:box-shadow .2s;flex-shrink:0;}
+.pc-avatar:hover{box-shadow:0 0 0 4px rgba(232,83,30,.25);}
+.pc-avatar:hover .pc-cam{opacity:1;}
+.pc-cam{position:absolute;inset:0;background:rgba(0,0,0,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;opacity:0;transition:opacity .2s;}
+.pc-name{font-family:var(--serif);font-size:20px;color:var(--text);text-align:center;}
+.pc-name-ko{font-size:13.5px;color:var(--text2);text-align:center;}
+.pc-badge{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);padding:3px 12px;border:1px solid rgba(232,83,30,.3);border-radius:100px;}
+.pc-right{display:flex;flex-direction:column;justify-content:center;}
+.pc-role-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.pc-bio{font-size:13.5px;color:var(--text2);line-height:1.9;margin-bottom:22px;}
+.pc-rows{display:flex;flex-direction:column;gap:9px;}
+.pc-row{display:flex;gap:12px;font-size:13px;}
+.pc-key{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);min-width:54px;padding-top:2px;flex-shrink:0;}
+.pc-val{color:var(--text2);}
+.pc-val a{color:var(--accent3);}
+.pc-val a:hover{color:var(--accent2);}
+.member-block{margin-bottom:48px;}
+.sec-heading{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border-c);}
+.sec-h{font-family:var(--display);font-size:26px;letter-spacing:.1em;color:var(--text);}
+.sec-cnt{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px;}
+.mc{border-radius:16px;overflow:hidden;background:var(--glass-bg);border:1px solid var(--border-c);backdrop-filter:blur(8px);transition:all .22s;position:relative;}
+.mc:hover{background:var(--glass-str);transform:translateY(-3px);box-shadow:var(--shadow);}
+.mc-photo{height:150px;background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer;}
+.mc-photo:hover .mc-overlay{opacity:1;}
+.mc-overlay{position:absolute;inset:0;background:rgba(0,0,0,.48);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:22px;}
+.mc-av{width:72px;height:72px;border-radius:50%;background:var(--glass-str);border:1.5px solid var(--border2-c);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:26px;color:var(--text2);overflow:hidden;}
+.mc-body{padding:14px 16px 18px;}
+.mc-name{font-size:14.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.mc-name-en{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:6px;}
+.mc-role{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.mc-email{font-family:var(--mono);font-size:9.5px;color:var(--accent3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mc-badge{position:absolute;top:10px;left:10px;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;}
+.badge-ms{background:rgba(99,153,34,.15);color:#8dc647;border:1px solid rgba(99,153,34,.3);}
+.badge-ug{background:rgba(55,138,221,.15);color:#7ab9f5;border:1px solid rgba(55,138,221,.3);}
+.alumni-table{width:100%;border-collapse:collapse;font-size:13px;}
+.alumni-table th{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:10px 16px;border-bottom:1px solid var(--border-c);text-align:left;}
+.alumni-table td{padding:12px 16px;border-bottom:1px solid var(--border-c);color:var(--text2);}
+.alumni-table tr:hover td{background:var(--glass-bg);}
+.recruit-card{margin-top:56px;padding:32px;border-radius:20px;background:var(--accent-glass);border:1px solid rgba(232,83,30,.2);display:flex;align-items:center;gap:24px;}
+.recruit-icon{font-size:38px;flex-shrink:0;}
+.recruit-text h3{font-family:var(--display);font-size:24px;letter-spacing:.08em;color:var(--text);margin-bottom:6px;}
+.recruit-text p{font-size:13.5px;color:var(--text2);line-height:1.8;}
+.recruit-btn{margin-left:auto;flex-shrink:0;padding:12px 26px;background:var(--accent);border:none;border-radius:100px;color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.recruit-btn:hover{background:var(--accent2);}
+.photo-modal{display:none;position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
+.pm-inner{background:var(--bg2);border:1px solid var(--border2-c);border-radius:20px;width:min(420px,92vw);padding:24px;}
+.pm-drop{border:2px dashed var(--border2-c);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;}
+.pm-drop:hover,.pm-drop.over{border-color:var(--accent);background:var(--accent-glass);}
+.divider{height:1px;background:var(--border-c);}
+footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 80px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;transition:background .35s;}
+.footer-lab{font-family:var(--display);font-size:20px;letter-spacing:.12em;color:var(--text);margin-bottom:4px;}
+.footer-univ{font-size:12.5px;color:var(--text3);margin-bottom:14px;}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;}
+.footer-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);transition:color .2s;}
+.footer-links a:hover{color:var(--text2);}
+.footer-right{font-family:var(--mono);font-size:10px;color:var(--text3);text-align:right;line-height:1.8;}
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border2-c);border-radius:12px;padding:12px 22px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--text);box-shadow:var(--shadow);z-index:9999;transition:transform .3s,opacity .3s;opacity:0;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+@media(max-width:960px){.page-header,.page-main{padding-left:40px;padding-right:40px;}.prof-card{grid-template-columns:1fr;}.pc-left{flex-direction:row;align-items:flex-start;}nav{padding:0 20px;}.nav-links{display:none;}footer{grid-template-columns:1fr;padding:32px 40px;}.footer-right{text-align:left;}}
+@media(max-width:600px){.page-header,.page-main{padding-left:20px;padding-right:20px;}.recruit-card{flex-wrap:wrap;}.recruit-btn{width:100%;text-align:center;}.excel-btns{flex-wrap:wrap;width:100%;}}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-hex"><span>HTM</span></div>
+    <div class="nav-lab-name"><span class="n1">고온재료연구실</span><span class="n2">Pukyong National University</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#publications">Publications</a></li>
+    <li><a href="members.html" class="active">Members</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="index.html#facilities">Facilities</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-theme-pill" onclick="toggleTheme()">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <span id="themeLabel">라이트</span>
+    </button>
+    <a href="index.html#contact" class="glass-strong" style="padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);display:inline-flex;align-items:center;">Contact</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="ph-tag">고온재료연구실 · PKNU</div>
+  <h1 class="ph-h1">LAB<br>MEMBERS</h1>
+  <div class="ph-stats">
+    <div class="ph-stat"><div class="ph-stat-num" id="statTotal">14</div><div class="ph-stat-lbl">Total Members</div></div>
+    <div class="ph-stat"><div class="ph-stat-num" id="statMs">3</div><div class="ph-stat-lbl">Master's</div></div>
+    <div class="ph-stat"><div class="ph-stat-num" id="statUg">10</div><div class="ph-stat-lbl">Undergraduate</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="page-main">
+  <div class="excel-bar glass">
+    <div class="excel-icon">📊</div>
+    <div class="excel-info">
+      <div class="excel-title">엑셀로 구성원 일괄 업데이트</div>
+      <div class="excel-sub">컬럼: 구분 · 이름 · 영문이름 · 이메일 — 업로드 즉시 반영</div>
+    </div>
+    <div class="excel-btns">
+      <button class="btn-xls tmpl" onclick="downloadTemplate()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        양식 다운로드
+      </button>
+      <button class="btn-xls upload" onclick="document.getElementById('excelFileInput').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        엑셀 업로드
+      </button>
+    </div>
+  </div>
+  <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" onchange="handleExcel(this)">
+  <div class="upload-status" id="uploadStatus"></div>
+
+  <div class="filter-row">
+    <button class="ftab active" onclick="setFilter('all',this)">전체</button>
+    <button class="ftab" onclick="setFilter('professor',this)">교수</button>
+    <button class="ftab" onclick="setFilter('ms',this)">석사과정</button>
+    <button class="ftab" onclick="setFilter('undergrad',this)">학부연구생</button>
+    <button class="ftab" onclick="setFilter('alumni',this)">졸업생</button>
+  </div>
+
+  <div id="membersArea"></div>
+
+  <div class="recruit-card">
+    <div class="recruit-icon">🔬</div>
+    <div class="recruit-text">
+      <h3>대학원생 모집 중</h3>
+      <p>고성능 내열합금·분말야금·원자력 구조재료에 관심 있는 학생의 지원을 환영합니다.<br>학부연구생도 수시 모집합니다.</p>
+    </div>
+    <button class="recruit-btn" onclick="location.href='mailto:nohssang@pknu.ac.kr'">지원 문의</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+  <div>
+    <div class="footer-lab">HIGH TEMPERATURE MATERIALS LAB.</div>
+    <div class="footer-univ">국립부경대학교 융합소재공학부 재료공학전공</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a><a href="index.html#about">About</a>
+      <a href="index.html#research">Research</a><a href="index.html#publications">Publications</a>
+      <a href="members.html">Members</a><a href="gallery.html">Gallery</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>Tel: 051-629-6359</div>
+    <div><a href="mailto:nohssang@pknu.ac.kr" style="color:var(--text2);">nohssang@pknu.ac.kr</a></div>
+    <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="photo-modal" id="photoModal">
+  <div class="pm-inner">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">프로필 사진</div>
+    <div id="pmTitle" style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:14px;">사진 변경</div>
+    <div class="pm-drop" id="pmDrop"
+      onclick="document.getElementById('pmFile').click()"
+      ondragover="event.preventDefault();this.classList.add('over')"
+      ondragleave="this.classList.remove('over')"
+      ondrop="pmDrop(event)">
+      <div style="font-size:28px;margin-bottom:8px;">📁</div>
+      <div style="font-size:13px;color:var(--text2);">클릭 또는 드래그해서 사진 선택</div>
+      <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:4px;">JPG · PNG · WEBP</div>
+    </div>
+    <input type="file" id="pmFile" accept="image/*" style="display:none" onchange="pmLoad(this)">
+    <img id="pmPreview" style="display:none;width:100%;border-radius:10px;max-height:200px;object-fit:cover;margin-bottom:12px;">
+    <div style="display:flex;gap:8px;">
+      <button onclick="closePm()" style="flex:1;padding:9px;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;color:var(--text2);font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">취소</button>
+      <button onclick="applyPm()" style="flex:2;padding:9px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">✓ 적용</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+let theme=localStorage.getItem('htm-theme')||'dark';
+document.documentElement.setAttribute('data-theme',theme);
+function toggleTheme(){theme=theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('htm-theme',theme);syncIcon();}
+function syncIcon(){const m='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z';const s='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 000 14 7 7 0 000-14z';document.getElementById('themeIcon').querySelector('path').setAttribute('d',theme==='dark'?m:s);document.getElementById('themeLabel').textContent=theme==='dark'?'라이트':'다크';}
+syncIcon();
+
+// ── 실제 구성원 데이터 (엑셀 원본 반영) ──
+let members=[
+  {id:1, name:'노상훈', nameEn:'Sanghoon Noh', role:'professor', email:'nohssang@pknu.ac.kr', photo:'',
+   bio:'국립부경대학교 고온재료연구실 지도교수. 한국원자력연구원(KAERI) 선임연구원, 일본원자력연구개발기구(JAEA) 박사후연구원 역임.',
+   dept:'융합소재공학부 재료공학전공', research:'고성능 내열합금 · ODS 합금 · 분말야금 · 구조부품 접합'},
+  {id:2, name:'김대식', nameEn:'Deasik Kim',      role:'ms', email:'d0916s@pukyong.ac.kr',    photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:3, name:'LU YUHAN', nameEn:'LU YUHAN',      role:'ms', email:'lishengjing93@gmail.com', photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:4, name:'김태균', nameEn:'Taegyun Kim',      role:'ms', email:'rlaxorbs600@gmail.com',   photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:5, name:'김주현', nameEn:'Joohyeon Kim',     role:'undergrad', email:'pknuhyeon@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:6, name:'손유준', nameEn:'Son Yujun',        role:'undergrad', email:'yujun5853@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:7, name:'김성희', nameEn:'Kim Seonghee',     role:'undergrad', email:'bunnyihee@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:8, name:'조예진', nameEn:'Cho Ye Jin',       role:'undergrad', email:'jo9793278@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:9, name:'최지원', nameEn:'Jiwon Choi',       role:'undergrad', email:'choijw5539@pukyong.ac.kr',photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:10,name:'최성현', nameEn:'Choi Seong Hyeon', role:'undergrad', email:'xychl7003@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:11,name:'김도훈', nameEn:'Kim Do Hun',       role:'undergrad', email:'gadget6175@gmail.com',    photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:12,name:'문세현', nameEn:'Moon Se Hyeon',    role:'undergrad', email:'tpgus9560@gmail.com',     photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:13,name:'이동혁', nameEn:'Lee Dong Hyuk',    role:'undergrad', email:'dlehdgur4395@gmail.com',  photo:'', bio:'', dept:'재료공학전공', research:''},
+  {id:14,name:'권희정', nameEn:'Kwon Hee Jung',    role:'undergrad', email:'kwonheejjjj@gmail.com',   photo:'', bio:'', dept:'재료공학전공', research:''},
+];
+let nextId=20, curFilter='all', pmTargetId=null, pmDataUrl=null;
+
+function render(){
+  const area=document.getElementById('membersArea');
+  const list=curFilter==='all'?members:members.filter(m=>m.role===curFilter);
+  const active=members.filter(m=>m.role!=='alumni');
+  document.getElementById('statTotal').textContent=active.length;
+  document.getElementById('statMs').textContent=members.filter(m=>m.role==='ms'||m.role==='phd').length;
+  document.getElementById('statUg').textContent=members.filter(m=>m.role==='undergrad').length;
+  let html='';
+  const profs=list.filter(m=>m.role==='professor');
+  profs.forEach(p=>{html+=renderProf(p);});
+  const phds=list.filter(m=>m.role==='phd');
+  if(phds.length) html+=block('박사과정',phds);
+  const mss=list.filter(m=>m.role==='ms');
+  if(mss.length) html+=block('석사과정',mss);
+  const ugs=list.filter(m=>m.role==='undergrad');
+  if(ugs.length) html+=block('학부연구생',ugs);
+  const alums=list.filter(m=>m.role==='alumni');
+  if(alums.length){
+    html+=`<div class="member-block"><div class="sec-heading"><span class="sec-h">졸업생</span><span class="sec-cnt">${alums.length}명</span></div>
+    <table class="alumni-table"><thead><tr><th>이름</th><th>영문</th><th>이메일</th></tr></thead><tbody>
+    ${alums.map(a=>`<tr><td style="font-weight:500;color:var(--text);">${a.name}</td><td style="font-family:var(--mono);font-size:11px;">${a.nameEn}</td><td style="font-family:var(--mono);font-size:11px;color:var(--accent3);">${a.email||'—'}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+  if(!html) html=`<div style="text-align:center;padding:60px;color:var(--text3);font-family:var(--mono);font-size:11px;text-transform:uppercase;">구성원이 없습니다</div>`;
+  area.innerHTML=html;
+}
+
+function block(title,list){
+  return `<div class="member-block"><div class="sec-heading"><span class="sec-h">${title}</span><span class="sec-cnt">${list.length}명</span></div><div class="mg">${list.map(renderCard).join('')}</div></div>`;
+}
+
+function renderProf(p){
+  const av=p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;">`:p.name.charAt(0);
+  return `<div class="prof-card glass-strong">
+    <div class="pc-left">
+      <div class="pc-avatar" onclick="openPm(${p.id},'${p.name}')">${av}<div class="pc-cam">📷</div></div>
+      <div class="pc-name">${p.nameEn}</div><div class="pc-name-ko">${p.name}</div>
+      <div class="pc-badge">Principal Investigator</div>
+    </div>
+    <div class="pc-right">
+      <div class="pc-role-tag">교수 · Professor</div>
+      ${p.bio?`<div class="pc-bio">${p.bio}</div>`:''}
+      <div class="pc-rows">
+        <div class="pc-row"><span class="pc-key">Dept.</span><span class="pc-val">${p.dept}</span></div>
+        <div class="pc-row"><span class="pc-key">Office</span><span class="pc-val">공학1관 (E13) 911호</span></div>
+        <div class="pc-row"><span class="pc-key">Tel</span><span class="pc-val">+82-51-629-6359</span></div>
+        <div class="pc-row"><span class="pc-key">E-mail</span><span class="pc-val"><a href="mailto:${p.email}">${p.email}</a></span></div>
+        <div class="pc-row"><span class="pc-key">Research</span><span class="pc-val">${p.research}</span></div>
+        <div class="pc-row"><span class="pc-key">Scopus</span><span class="pc-val"><a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank">ID: 35307733900 →</a></span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCard(m){
+  const isMs=m.role==='ms'||m.role==='phd';
+  const badgeCls=isMs?'badge-ms':'badge-ug';
+  const badgeTxt=isMs?(m.role==='phd'?'박사':'석사'):'학부';
+  const roleEn=isMs?(m.role==='phd'?'Ph.D. Student':'M.S. Student'):'Undergraduate';
+  const av=m.photo?`<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`:m.name.charAt(0);
+  return `<div class="mc">
+    <div class="mc-badge ${badgeCls}">${badgeTxt}</div>
+    <div class="mc-photo" onclick="openPm(${m.id},'${m.name}')">
+      <div class="mc-av">${av}</div><div class="mc-overlay">📷</div>
+    </div>
+    <div class="mc-body">
+      <div class="mc-name">${m.name}</div>
+      <div class="mc-name-en">${m.nameEn}</div>
+      <div class="mc-role">${roleEn}</div>
+      ${m.email?`<div class="mc-email">${m.email}</div>`:''}
+      ${m.research?`<div style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;">${m.research}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function setFilter(f,btn){curFilter=f;document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');render();}
+
+function handleExcel(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+      if(!rows.length){showStatus('데이터가 없습니다.','err');return;}
+      function col(row,keys){for(const k of keys)for(const[rk,rv] of Object.entries(row))if(rk.toLowerCase().includes(k.toLowerCase()))return String(rv||'');return '';}
+      function toRole(v){const s=String(v||'').toLowerCase();if(s.includes('교수')||s.includes('prof'))return 'professor';if(s.includes('박사')||s.includes('phd'))return 'phd';if(s.includes('석사')||s.includes('ms')||s.includes('대학원'))return 'ms';if(s.includes('졸업')||s.includes('alumni'))return 'alumni';return 'undergrad';}
+      const keepProf=members.filter(m=>m.role==='professor');
+      const newList=rows.map((row,i)=>({id:nextId++,name:col(row,['이름','name','성명'])||`구성원${i+1}`,nameEn:col(row,['영문','english','nameEn']),role:toRole(col(row,['구분','role','역할'])),email:col(row,['이메일','email']),research:col(row,['연구','research']),dept:col(row,['소속','dept'])||'재료공학전공',photo:'',bio:''}));
+      const hasProfNew=newList.some(m=>m.role==='professor');
+      members=hasProfNew?newList:[...keepProf,...newList.filter(m=>m.role!=='professor')];
+      render();showStatus(`✅ ${newList.length}명 업데이트 완료!`,'ok');toast(`${newList.length}명 업데이트 완료!`);
+    }catch(err){showStatus('❌ 오류: '+err.message,'err');}
+  };
+  reader.readAsArrayBuffer(file);input.value='';
+}
+
+function downloadTemplate(){
+  const data=[['구분','이름','영문 이름','이메일','연구분야','소속'],['석사','홍길동','Hong Gil-dong','hong@pknu.ac.kr','ODS 합금','재료공학전공'],['학사','김철수','Kim Cheol-su','kim@pknu.ac.kr','초내열합금','재료공학전공'],['졸업','이졸업','Lee Jol-eop','lee@gmail.com','분말야금','재료공학전공']];
+  const ws=XLSX.utils.aoa_to_sheet(data);ws['!cols']=[{wch:12},{wch:14},{wch:20},{wch:26},{wch:20},{wch:16}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'구성원');XLSX.writeFile(wb,'HTM_lab_members_template.xlsx');
+  toast('양식 파일이 다운로드되었습니다.');
+}
+
+function openPm(id,name){pmTargetId=id;pmDataUrl=null;document.getElementById('pmTitle').textContent=name+' — 사진 변경';document.getElementById('pmPreview').style.display='none';document.getElementById('pmDrop').style.display='block';document.getElementById('pmFile').value='';document.getElementById('photoModal').style.display='flex';}
+function closePm(){document.getElementById('photoModal').style.display='none';}
+function pmDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))pmLoadFile(f);}
+function pmLoad(input){if(input.files[0])pmLoadFile(input.files[0]);}
+function pmLoadFile(file){const r=new FileReader();r.onload=e=>{pmDataUrl=e.target.result;document.getElementById('pmDrop').style.display='none';const p=document.getElementById('pmPreview');p.src=pmDataUrl;p.style.display='block';};r.readAsDataURL(file);}
+function applyPm(){if(!pmDataUrl){alert('사진을 선택해주세요.');return;}const m=members.find(x=>x.id===pmTargetId);if(m){m.photo=pmDataUrl;render();toast('프로필 사진이 업데이트되었습니다.');}closePm();}
+
+function showStatus(msg,type){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+type;el.style.display='block';setTimeout(()=>{el.style.display='none';},4000);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+render();
+</script>
+</body>
+</html>

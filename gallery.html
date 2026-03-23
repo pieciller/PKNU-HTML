@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>갤러리 | 고온재료연구실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--radius:1rem;--accent:#e8531e;--accent2:#f07840;--accent3:#ff9a5c;--gold:#c9933a;--mono:'IBM Plex Mono',monospace;--serif:'Playfair Display',serif;--sans:'Noto Sans KR',sans-serif;--display:'Bebas Neue',sans-serif;}
+[data-theme="dark"]{--bg:#09090c;--bg2:#0e0f14;--bg3:#13141a;--border-c:rgba(255,255,255,0.07);--border2-c:rgba(255,255,255,0.15);--text:#eceae4;--text2:rgba(236,234,228,0.62);--text3:rgba(236,234,228,0.32);--glass-bg:rgba(255,255,255,0.025);--glass-str:rgba(255,255,255,0.055);--shadow:0 8px 48px rgba(0,0,0,0.7);--nav-bg:rgba(9,9,12,0.85);--accent-glass:rgba(232,83,30,0.10);}
+[data-theme="light"]{--bg:#f5f3ef;--bg2:#edeae4;--bg3:#e3dfd8;--border-c:rgba(0,0,0,0.07);--border2-c:rgba(0,0,0,0.14);--text:#1a1510;--text2:rgba(26,21,16,0.62);--text3:rgba(26,21,16,0.36);--glass-bg:rgba(255,255,255,0.50);--glass-str:rgba(255,255,255,0.80);--shadow:0 8px 40px rgba(0,0,0,0.10);--nav-bg:rgba(245,243,239,0.88);--accent-glass:rgba(232,83,30,0.08);}
+.glass{background:var(--glass-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--radius);position:relative;overflow:hidden;}
+.glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(255,255,255,0.28) 0%,rgba(232,83,30,0.12) 30%,transparent 55%,rgba(232,83,30,0.08) 80%,rgba(255,255,255,0.20) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;transition:background 0.35s,color 0.35s;}
+a{color:inherit;text-decoration:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-c);transition:background 0.35s;}
+.nav-logo{display:flex;align-items:center;gap:14px;}
+.logo-hex{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent2));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-hex span{font-family:var(--display);font-size:12px;color:#fff;letter-spacing:0.03em;}
+.nav-lab-name{display:flex;flex-direction:column;line-height:1.2;}
+.n1{font-family:var(--display);font-size:15px;letter-spacing:0.12em;color:var(--text);}
+.n2{font-family:var(--mono);font-size:9.5px;letter-spacing:0.08em;color:var(--text3);}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-theme-pill{display:flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;cursor:pointer;border:1px solid var(--border-c);font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);background:var(--glass-bg);transition:all 0.25s;}
+.nav-theme-pill svg{width:13px;height:13px;}
+.nav-theme-pill:hover{color:var(--text);background:var(--glass-str);}
+
+/* PAGE HEADER */
+.page-header{padding:140px 80px 60px;background:var(--bg2);position:relative;overflow:hidden;}
+.page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(232,83,30,0.09) 0%,transparent 65%);}
+.ph-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.ph-h1{font-family:var(--display);font-size:clamp(48px,5vw,80px);letter-spacing:0.05em;line-height:0.95;color:var(--text);margin-bottom:16px;}
+.ph-desc{font-size:14px;color:var(--text2);max-width:520px;line-height:1.9;}
+
+/* MAIN */
+.page-main{padding:60px 80px 100px;}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border2-c);border-radius:20px;padding:48px 32px;text-align:center;cursor:pointer;transition:all 0.25s;margin-bottom:40px;position:relative;}
+.upload-zone:hover,.upload-zone.over{border-color:var(--accent);background:var(--accent-glass);}
+.uz-icon{font-size:40px;margin-bottom:12px;}
+.uz-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;}
+.uz-sub{font-size:12px;color:var(--text3);font-family:var(--mono);letter-spacing:0.06em;}
+.uz-btn{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 24px;background:var(--accent);border:none;border-radius:100px;color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.uz-btn:hover{background:var(--accent2);}
+#galleryFileInput{display:none;}
+
+/* ALBUM TABS */
+.album-bar{display:flex;align-items:center;gap:10px;margin-bottom:32px;flex-wrap:wrap;}
+.album-tab{padding:7px 18px;border-radius:100px;font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border-c);background:var(--glass-bg);color:var(--text2);transition:all 0.2s;}
+.album-tab:hover,.album-tab.active{background:var(--accent-glass);border-color:rgba(232,83,30,0.3);color:var(--accent2);}
+.album-add{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border:1px dashed var(--border2-c);background:none;color:var(--text3);transition:all 0.2s;}
+.album-add:hover{border-color:var(--accent);color:var(--accent);}
+
+/* MASONRY GRID */
+.masonry{columns:4;column-gap:14px;}
+@media(max-width:1100px){.masonry{columns:3;}}
+@media(max-width:720px){.masonry{columns:2;}}
+@media(max-width:480px){.masonry{columns:1;}}
+.photo-item{break-inside:avoid;margin-bottom:14px;border-radius:14px;overflow:hidden;position:relative;cursor:pointer;background:var(--bg3);}
+.photo-item img{width:100%;display:block;transition:transform 0.3s;}
+.photo-item:hover img{transform:scale(1.04);}
+.photo-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%);opacity:0;transition:opacity 0.25s;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;}
+.photo-item:hover .photo-item-overlay{opacity:1;}
+.photo-item-cap{font-size:12px;color:#fff;margin-bottom:4px;}
+.photo-item-album{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:0.1em;text-transform:uppercase;}
+.photo-item-del{position:absolute;top:8px;right:8px;width:26px;height:26px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;}
+.photo-item:hover .photo-item-del{opacity:1;}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:80px 20px;color:var(--text3);}
+.empty-state .es-icon{font-size:56px;margin-bottom:16px;}
+.empty-state p{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:30000;background:rgba(0,0,0,0.96);align-items:center;justify-content:center;flex-direction:column;}
+.lightbox.open{display:flex;}
+.lb-img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:8px;}
+.lb-close{position:fixed;top:20px;right:24px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;}
+.lb-nav{display:flex;align-items:center;gap:20px;margin-top:16px;}
+.lb-nav button{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;transition:background 0.2s;}
+.lb-nav button:hover{background:rgba(255,255,255,0.2);}
+.lb-cap{font-size:13px;color:rgba(255,255,255,0.7);text-align:center;max-width:500px;}
+
+/* CAPTION MODAL */
+.cap-modal{display:none;position:fixed;inset:0;z-index:25000;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+.cap-modal-inner{background:var(--bg2);border:1px solid var(--border2-c);border-radius:16px;width:min(380px,90vw);padding:22px;}
+.cap-input{width:100%;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--sans);margin-bottom:12px;}
+.cap-input:focus{outline:none;border-color:var(--accent);}
+.cap-sel{width:100%;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);margin-bottom:16px;}
+
+/* FOOTER */
+.divider{height:1px;background:var(--border-c);}
+footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 80px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;transition:background 0.35s;}
+.footer-lab{font-family:var(--display);font-size:20px;letter-spacing:0.12em;color:var(--text);margin-bottom:4px;}
+.footer-univ{font-size:12.5px;color:var(--text3);margin-bottom:14px;}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap;}
+.footer-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);transition:color 0.2s;}
+.footer-links a:hover{color:var(--text2);}
+.footer-right{font-family:var(--mono);font-size:10px;color:var(--text3);text-align:right;line-height:1.8;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border2-c);border-radius:12px;padding:12px 22px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--text);box-shadow:var(--shadow);z-index:9999;transition:transform 0.3s,opacity 0.3s;opacity:0;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+@media(max-width:900px){.page-header,.page-main{padding-left:40px;padding-right:40px;}nav{padding:0 20px;}.nav-links{display:none;}footer{grid-template-columns:1fr;padding:32px 40px;}.footer-right{text-align:left;}}
+@media(max-width:600px){.page-header,.page-main{padding-left:20px;padding-right:20px;}}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" style="text-decoration:none;">
+    <div class="logo-hex"><span>HTM</span></div>
+    <div class="nav-lab-name"><span class="n1">고온재료연구실</span><span class="n2">Pukyong National University</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#publications">Publications</a></li>
+    <li><a href="members.html">Members</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="index.html#facilities">Facilities</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-theme-pill" onclick="toggleTheme()">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <span id="themeLabel">라이트</span>
+    </button>
+    <a href="index.html#contact" style="padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);background:var(--glass-str);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-tag">고온재료연구실 · PKNU</div>
+  <h1 class="ph-h1">PHOTO<br>GALLERY</h1>
+  <p class="ph-desc">연구실 활동, 실험 현장, 행사, 세미나 등의 사진을 모았습니다.</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="page-main">
+
+  <!-- UPLOAD ZONE -->
+  <div class="upload-zone" id="uploadZone"
+    onclick="document.getElementById('galleryFileInput').click()"
+    ondragover="event.preventDefault();this.classList.add('over')"
+    ondragleave="this.classList.remove('over')"
+    ondrop="handleDrop(event)">
+    <div class="uz-icon">🖼</div>
+    <div class="uz-title">사진 추가하기</div>
+    <div class="uz-sub">JPG · PNG · WEBP · GIF · 여러 장 동시 업로드 가능</div>
+    <button class="uz-btn" onclick="event.stopPropagation();document.getElementById('galleryFileInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      사진 선택
+    </button>
+  </div>
+  <input type="file" id="galleryFileInput" accept="image/*" multiple onchange="handleFileSelect(this)">
+
+  <!-- ALBUM TABS -->
+  <div class="album-bar" id="albumBar">
+    <button class="album-tab active" onclick="filterAlbum('all',this)" data-album="all">전체</button>
+    <button class="album-tab" onclick="filterAlbum('research',this)" data-album="research">연구 활동</button>
+    <button class="album-tab" onclick="filterAlbum('seminar',this)" data-album="seminar">세미나·행사</button>
+    <button class="album-tab" onclick="filterAlbum('lab',this)" data-album="lab">연구실</button>
+    <button class="album-tab" onclick="filterAlbum('etc',this)" data-album="etc">기타</button>
+    <button class="album-add" onclick="addAlbum()">＋ 앨범 추가</button>
+  </div>
+
+  <!-- MASONRY GRID -->
+  <div class="masonry" id="grid"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="es-icon">📷</div>
+    <p>사진을 업로드해주세요</p>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-lab">HIGH TEMPERATURE MATERIALS LAB.</div>
+    <div class="footer-univ">국립부경대학교 융합소재공학부 재료공학전공</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#research">Research</a>
+      <a href="members.html">Members</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>Tel: 051-629-6359</div>
+    <div><a href="mailto:nohssang@pknu.ac.kr" style="color:var(--text2);">nohssang@pknu.ac.kr</a></div>
+    <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">×</button>
+  <img class="lb-img" id="lbImg" src="" alt="">
+  <div class="lb-nav">
+    <button onclick="lbPrev()">‹</button>
+    <div class="lb-cap" id="lbCap"></div>
+    <button onclick="lbNext()">›</button>
+  </div>
+</div>
+
+<!-- CAPTION MODAL -->
+<div class="cap-modal" id="capModal">
+  <div class="cap-modal-inner">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">사진 정보 입력</div>
+    <input class="cap-input" id="capInput" placeholder="사진 설명 (선택사항)" type="text">
+    <select class="cap-sel" id="capAlbum">
+      <option value="research">연구 활동</option>
+      <option value="seminar">세미나·행사</option>
+      <option value="lab">연구실</option>
+      <option value="etc">기타</option>
+    </select>
+    <div style="display:flex;gap:8px;">
+      <button onclick="skipCaption()" style="flex:1;padding:9px;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;color:var(--text2);font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">건너뛰기</button>
+      <button onclick="saveCaption()" style="flex:2;padding:9px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">✓ 추가</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Theme ──
+let theme = localStorage.getItem('htm-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', theme);
+function toggleTheme() {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('htm-theme', theme);
+  const moon = 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z';
+  const sun  = 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 000 14 7 7 0 000-14z';
+  document.getElementById('themeIcon').querySelector('path').setAttribute('d', theme==='dark'?moon:sun);
+  document.getElementById('themeLabel').textContent = theme==='dark'?'라이트':'다크';
+}
+// init icon
+(function(){const moon='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z';const sun='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 000 14 7 7 0 000-14z';document.getElementById('themeIcon').querySelector('path').setAttribute('d',theme==='dark'?moon:sun);document.getElementById('themeLabel').textContent=theme==='dark'?'라이트':'다크';})();
+
+// ── Data ──
+let photos = [];       // { id, src, caption, album }
+let pendingFiles = []; // queue of files to add
+let pendingIdx   = 0;
+let currentAlbum = 'all';
+let lbIdx = 0;
+let customAlbums = [];
+
+const albumLabels = { research:'연구 활동', seminar:'세미나·행사', lab:'연구실', etc:'기타' };
+
+// ── Upload ──
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('over');
+  const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+  if (files.length) queueFiles(files);
+}
+function handleFileSelect(input) {
+  const files = [...input.files].filter(f => f.type.startsWith('image/'));
+  if (files.length) queueFiles(files);
+  input.value = '';
+}
+function queueFiles(files) {
+  pendingFiles = files;
+  pendingIdx   = 0;
+  processNextFile();
+}
+function processNextFile() {
+  if (pendingIdx >= pendingFiles.length) { render(); return; }
+  const file = pendingFiles[pendingIdx];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    // Show caption modal for first file, auto-add rest with same album
+    if (pendingIdx === 0) {
+      openCaptionModal(e.target.result);
+    } else {
+      addPhoto(e.target.result, '', currentCaptionAlbum);
+      pendingIdx++;
+      processNextFile();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+let currentCaptionSrc   = '';
+let currentCaptionAlbum = 'research';
+
+function openCaptionModal(src) {
+  currentCaptionSrc = src;
+  document.getElementById('capInput').value  = '';
+  document.getElementById('capAlbum').value  = 'research';
+  document.getElementById('capModal').style.display = 'flex';
+}
+function saveCaption() {
+  const cap   = document.getElementById('capInput').value.trim();
+  const album = document.getElementById('capAlbum').value;
+  currentCaptionAlbum = album;
+  addPhoto(currentCaptionSrc, cap, album);
+  document.getElementById('capModal').style.display = 'none';
+  pendingIdx++;
+  processNextFile();
+}
+function skipCaption() {
+  currentCaptionAlbum = document.getElementById('capAlbum').value;
+  addPhoto(currentCaptionSrc, '', currentCaptionAlbum);
+  document.getElementById('capModal').style.display = 'none';
+  pendingIdx++;
+  processNextFile();
+}
+
+function addPhoto(src, caption, album) {
+  photos.push({ id: Date.now() + Math.random(), src, caption, album: album || 'etc' });
+  render();
+  showToast('사진이 추가되었습니다.');
+}
+
+// ── Render ──
+function render() {
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
+  const filtered = currentAlbum === 'all' ? photos : photos.filter(p => p.album === currentAlbum);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="photo-item" data-id="${p.id}">
+      <img src="${p.src}" alt="${p.caption||''}" loading="lazy" onclick="openLightbox(${i}, '${currentAlbum}')">
+      <div class="photo-item-overlay">
+        ${p.caption ? `<div class="photo-item-cap">${p.caption}</div>` : ''}
+        <div class="photo-item-album">${albumLabels[p.album]||p.album}</div>
+      </div>
+      <button class="photo-item-del" onclick="event.stopPropagation();deletePhoto('${p.id}')" title="삭제">×</button>
+    </div>
+  `).join('');
+}
+
+function deletePhoto(id) {
+  if (!confirm('이 사진을 삭제하시겠습니까?')) return;
+  photos = photos.filter(p => String(p.id) !== String(id));
+  render();
+}
+
+// ── Album filter ──
+function filterAlbum(album, btn) {
+  currentAlbum = album;
+  document.querySelectorAll('.album-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function addAlbum() {
+  const name = prompt('앨범 이름을 입력하세요:');
+  if (!name || !name.trim()) return;
+  const key = 'album_' + Date.now();
+  albumLabels[key] = name.trim();
+  customAlbums.push({ key, label: name.trim() });
+  // Add tab
+  const bar = document.getElementById('albumBar');
+  const addBtn = bar.querySelector('.album-add');
+  const tab = document.createElement('button');
+  tab.className = 'album-tab';
+  tab.setAttribute('data-album', key);
+  tab.textContent = name.trim();
+  tab.onclick = function(){ filterAlbum(key, this); };
+  // Add to cap-modal select
+  const sel = document.getElementById('capAlbum');
+  const opt = document.createElement('option');
+  opt.value = key; opt.textContent = name.trim();
+  sel.appendChild(opt);
+  bar.insertBefore(tab, addBtn);
+  showToast(`앨범 "${name.trim()}" 이 추가되었습니다.`);
+}
+
+// ── Lightbox ──
+function openLightbox(idx, album) {
+  const filtered = album === 'all' ? photos : photos.filter(p => p.album === album);
+  lbIdx = idx;
+  showLbPhoto(filtered);
+  document.getElementById('lightbox').classList.add('open');
+  document.addEventListener('keydown', lbKeyHandler);
+}
+function showLbPhoto(filtered) {
+  const p = filtered[lbIdx];
+  if (!p) return;
+  document.getElementById('lbImg').src = p.src;
+  document.getElementById('lbCap').textContent = p.caption || '';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.removeEventListener('keydown', lbKeyHandler);
+}
+function lbNext() {
+  const filtered = currentAlbum === 'all' ? photos : photos.filter(p => p.album === currentAlbum);
+  lbIdx = (lbIdx + 1) % filtered.length;
+  showLbPhoto(filtered);
+}
+function lbPrev() {
+  const filtered = currentAlbum === 'all' ? photos : photos.filter(p => p.album === currentAlbum);
+  lbIdx = (lbIdx - 1 + filtered.length) % filtered.length;
+  showLbPhoto(filtered);
+}
+function lbKeyHandler(e) {
+  if (e.key === 'ArrowRight') lbNext();
+  if (e.key === 'ArrowLeft')  lbPrev();
+  if (e.key === 'Escape')     closeLightbox();
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+render();
+</script>
+</body>
+</html>
