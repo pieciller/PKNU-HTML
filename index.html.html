@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고온재료연구실 | 국립부경대학교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   DESIGN TOKENS — DARK / LIGHT
+══════════════════════════════════════════ */
+:root {
+  --radius:  1rem;
+  --accent:  #e8531e;
+  --accent2: #f07840;
+  --accent3: #ff9a5c;
+  --gold:    #c9933a;
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'Playfair Display', serif;
+  --sans:    'Noto Sans KR', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+  --trans:   all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+[data-theme="dark"] {
+  --bg:        #09090c;
+  --bg2:       #0e0f14;
+  --bg3:       #13141a;
+  --panel:     rgba(255,255,255,0.03);
+  --border-c:  rgba(255,255,255,0.07);
+  --border2-c: rgba(255,255,255,0.15);
+  --text:      #eceae4;
+  --text2:     rgba(236,234,228,0.62);
+  --text3:     rgba(236,234,228,0.32);
+  --glass-bg:  rgba(255,255,255,0.025);
+  --glass-str: rgba(255,255,255,0.055);
+  --blur-tint: rgba(12,12,18,0.6);
+  --shadow:    0 8px 48px rgba(0,0,0,0.7);
+  --nav-bg:    rgba(9,9,12,0.85);
+  --accent-glass:  rgba(232,83,30,0.10);
+  --accent-glass2: rgba(232,83,30,0.20);
+  --accent-glow:   rgba(232,83,30,0.35);
+}
+
+[data-theme="light"] {
+  --bg:        #f5f3ef;
+  --bg2:       #edeae4;
+  --bg3:       #e3dfd8;
+  --panel:     rgba(255,255,255,0.60);
+  --border-c:  rgba(0,0,0,0.07);
+  --border2-c: rgba(0,0,0,0.14);
+  --text:      #1a1510;
+  --text2:     rgba(26,21,16,0.62);
+  --text3:     rgba(26,21,16,0.36);
+  --glass-bg:  rgba(255,255,255,0.50);
+  --glass-str: rgba(255,255,255,0.80);
+  --blur-tint: rgba(245,243,239,0.65);
+  --shadow:    0 8px 40px rgba(0,0,0,0.10);
+  --nav-bg:    rgba(245,243,239,0.88);
+  --accent-glass:  rgba(232,83,30,0.08);
+  --accent-glass2: rgba(232,83,30,0.16);
+  --accent-glow:   rgba(232,83,30,0.25);
+}
+
+/* ══════════════════════════════════════════
+   LIQUID GLASS
+══════════════════════════════════════════ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+.glass::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.28) 0%,
+    rgba(232,83,30,0.12)  30%,
+    transparent           55%,
+    rgba(232,83,30,0.08)  80%,
+    rgba(255,255,255,0.20) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.glass-strong {
+  background: var(--glass-str);
+  backdrop-filter: blur(44px) saturate(190%);
+  -webkit-backdrop-filter: blur(44px) saturate(190%);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 1px rgba(232,83,30,0.08);
+}
+.glass-strong::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.2px;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.50) 0%,
+    rgba(232,83,30,0.18)  20%,
+    transparent           50%,
+    rgba(232,83,30,0.12)  78%,
+    rgba(255,255,255,0.42) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background 0.35s, color 0.35s;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ══════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  padding-top: 64px;
+}
+
+/* animated gradient bg mesh */
+.hero-mesh {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 65% 42%, rgba(232,83,30,0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 65% at 22% 72%, rgba(240,120,64,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 35% at 85% 82%, rgba(201,147,58,0.06) 0%, transparent 55%);
+  transition: background 0.5s;
+}
+[data-theme="light"] .hero-mesh {
+  background:
+    radial-gradient(ellipse 65% 55% at 65% 42%, rgba(232,83,30,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 65% at 22% 72%, rgba(240,120,64,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 35% at 85% 82%, rgba(201,147,58,0.04) 0%, transparent 55%);
+}
+
+/* iso grid texture */
+.hero-mesh::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border-c) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-c) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* left panel */
+.hero-left {
+  width: 52%;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 64px 64px 80px;
+  position: relative; z-index: 2;
+}
+
+/* hero content floating glass panel */
+.hero-glass-panel {
+  position: absolute;
+  inset: 20px;
+  border-radius: 28px;
+}
+
+/* floating content */
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative; z-index: 3;
+}
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 16px 6px 8px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  width: fit-content;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.9;
+}
+.hero-tag span {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.hero-h1 {
+  font-family: var(--display);
+  font-size: clamp(60px, 6.5vw, 100px);
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.hero-h1 em {
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 0.7em;
+  color: var(--accent2);
+  letter-spacing: 0.01em;
+}
+
+.hero-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 1.8vw, 26px);
+  color: var(--text2);
+  margin-bottom: 28px;
+}
+
+.hero-desc {
+  font-size: 14px;
+  color: var(--text2);
+  max-width: 420px;
+  line-height: 1.9;
+  margin-bottom: 40px;
+  padding-left: 14px;
+  border-left: 1.5px solid var(--accent);
+}
+
+.hero-cta-row {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 36px;
+}
+.btn-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 26px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-cta:hover { transform: scale(1.04); }
+.btn-cta:active { transform: scale(0.97); }
+.btn-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.btn-icon svg { width: 13px; height: 13px; }
+
+.hero-pills {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.hero-pill {
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+/* hero bottom quote */
+.hero-quote {
+  margin-top: auto;
+  padding-top: 32px;
+}
+.hero-quote-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+.hero-quote-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text2);
+  margin-bottom: 10px;
+}
+.hero-quote-author {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.hero-quote-author::before, .hero-quote-author::after {
+  content: ''; flex: 1; height: 1px; background: var(--border-c);
+}
+.hero-quote-author::before { max-width: 24px; }
+
+/* RIGHT PANEL — 3D canvas */
+.hero-right {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 40px 24px 0;
+  position: relative; z-index: 2;
+}
+
+.hero-right-top {
+  display: flex; justify-content: flex-end; gap: 10px;
+  margin-bottom: auto;
+  padding-top: 4px;
+}
+.hero-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none;
+  color: var(--text2);
+  transition: transform 0.18s, color 0.18s;
+  background: none;
+}
+.hero-icon-btn svg { width: 16px; height: 16px; }
+.hero-icon-btn:hover { transform: scale(1.12); color: var(--text); }
+
+/* theme toggle */
+.theme-toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  transition: color 0.2s, transform 0.18s;
+  background: none;
+}
+.theme-toggle:hover { color: var(--text); transform: scale(1.04); }
+.theme-toggle svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* 3D canvas area */
+.canvas-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+#hero-canvas {
+  width: 100% !important;
+  max-width: 520px;
+  aspect-ratio: 1;
+  display: block;
+  cursor: grab;
+  border-radius: 24px;
+}
+#hero-canvas:active { cursor: grabbing; }
+.canvas-hint {
+  position: absolute;
+  bottom: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* hero stats strip */
+.hero-stats {
+  display: flex; gap: 1px;
+  border-radius: 14px; overflow: hidden;
+  background: var(--border-c);
+  margin-top: 16px;
+  margin-right: 0;
+}
+.stat-box {
+  flex: 1;
+  padding: 16px 18px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+}
+.stat-num {
+  font-family: var(--display);
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.stat-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border-c);
+  transition: background 0.35s;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 14px;
+}
+.logo-hex {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-hex span {
+  font-family: var(--display);
+  font-size: 12px;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+.nav-lab-name {
+  display: flex; flex-direction: column; line-height: 1.2;
+}
+.nav-lab-name .n1 {
+  font-family: var(--display);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+.nav-lab-name .n2 {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+}
+.nav-links {
+  display: flex; align-items: center; gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--text);
+  transform: scaleX(0); transition: transform 0.2s; transform-origin: left;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+/* nav theme pill */
+.nav-theme-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-c);
+  transition: var(--trans);
+}
+.nav-theme-pill:hover { color: var(--text); background: var(--glass-str); }
+.nav-theme-pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.nav-contact {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer; border: none;
+  transition: transform 0.2s;
+}
+.nav-contact:hover { transform: scale(1.04); }
+
+/* ══════════════════════════════════════════
+   SECTIONS COMMON
+══════════════════════════════════════════ */
+section { padding: 100px 80px; transition: background 0.35s; }
+.s-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 12px;
+}
+.s-tag::before { content: attr(data-n); margin-right: 4px; }
+.s-h2 {
+  font-family: var(--display);
+  font-size: clamp(38px, 4vw, 64px);
+  letter-spacing: 0.05em; line-height: 0.95;
+  color: var(--text); margin-bottom: 10px;
+}
+.s-desc {
+  font-size: 14px; color: var(--text2);
+  max-width: 580px; line-height: 1.95;
+}
+.divider { height: 1px; background: var(--border-c); margin: 0 80px; }
+
+/* ══════════════════════════════════════════
+   ABOUT / PROFESSOR
+══════════════════════════════════════════ */
+#about { background: var(--bg2); }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 72px; margin-top: 56px; align-items: start;
+}
+.prof-card {
+  border-radius: 20px; overflow: hidden;
+  transition: background 0.35s;
+}
+.prof-top {
+  height: 200px;
+  background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border-c);
+  position: relative; overflow: hidden;
+}
+.prof-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 60%, rgba(176,184,200,0.12) 0%, transparent 70%);
+}
+.prof-avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--glass-str);
+  border: 2px solid var(--border2-c);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 32px;
+  color: var(--text2); position: relative; z-index: 1;
+  backdrop-filter: blur(8px);
+}
+.prof-body { padding: 24px; }
+.prof-name-en {
+  font-family: var(--serif); font-size: 22px; color: var(--text); margin-bottom: 2px;
+}
+.prof-name-ko {
+  font-size: 14px; color: var(--text2); margin-bottom: 12px;
+}
+.prof-badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 6px; font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text2); background: var(--glass-bg);
+  border: 1px solid var(--border-c); margin-bottom: 18px;
+}
+.prof-rows { display: flex; flex-direction: column; gap: 9px; }
+.prof-row { display: flex; gap: 12px; font-size: 13px; }
+.prof-key {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text3); min-width: 52px; padding-top: 2px;
+}
+.prof-val { color: var(--text2); }
+.prof-val a { color: var(--text2); text-decoration: underline; text-underline-offset: 3px; }
+.prof-val a:hover { color: var(--text); }
+
+.about-right {}
+.about-body {
+  font-size: 14.5px; color: var(--text2); line-height: 1.95;
+  margin: 24px 0 40px;
+}
+.research-focus {
+  padding: 20px 22px; border-radius: 12px; margin-bottom: 32px;
+  border-left: 2px solid var(--accent);
+}
+.research-focus-title {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 12px;
+}
+.research-focus-items { display: flex; flex-direction: column; gap: 7px; }
+.rfi {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13.5px; color: var(--text2);
+}
+.rfi::before { content: '→'; color: var(--text3); font-family: var(--mono); font-size: 11px; padding-top: 3px; flex-shrink: 0; }
+
+.career-list { display: flex; flex-direction: column; }
+.career-item {
+  display: flex; gap: 20px; padding: 18px 0;
+  border-bottom: 1px solid var(--border-c);
+}
+.career-item:first-child { border-top: 1px solid var(--border-c); }
+.career-yr {
+  font-family: var(--mono); font-size: 10.5px; color: var(--accent);
+  min-width: 100px; padding-top: 2px; letter-spacing: 0.04em; line-height: 1.5;
+}
+.career-org { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.career-role { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 0.04em; }
+
+/* ══════════════════════════════════════════
+   RESEARCH
+══════════════════════════════════════════ */
+#research { background: var(--bg); }
+.research-intro {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: end; margin-bottom: 56px;
+}
+.res-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border-c);
+  border-radius: 20px; overflow: hidden;
+}
+.res-card {
+  padding: 32px 26px 40px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  position: relative; overflow: hidden;
+  transition: background 0.25s;
+}
+.res-card:hover { background: var(--glass-str); }
+.res-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.res-card:hover::before { transform: scaleX(1); }
+.res-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--glass-str); border: 1px solid var(--border-c);
+  margin-bottom: 18px;
+}
+.res-icon svg { width: 20px; height: 20px; stroke: var(--accent2); }
+.res-title {
+  font-family: var(--display); font-size: 19px; letter-spacing: 0.06em;
+  color: var(--text); line-height: 1.2; margin-bottom: 8px;
+}
+.res-desc { font-size: 12.5px; color: var(--text2); line-height: 1.8; }
+.res-n {
+  position: absolute; bottom: 14px; right: 18px;
+  font-family: var(--display); font-size: 36px;
+  color: var(--border-c); line-height: 1; transition: color 0.25s;
+}
+.res-card:hover .res-n { color: var(--border2-c); }
+
+.app-strip {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 48px;
+}
+.app-card {
+  padding: 22px 18px; border-radius: 14px; text-align: center;
+  background: var(--glass-bg); border: 1px solid var(--border-c);
+  transition: transform 0.2s, background 0.2s;
+  backdrop-filter: blur(8px);
+}
+.app-card:hover { transform: translateY(-3px); background: var(--glass-str); }
+.app-icon { font-size: 26px; margin-bottom: 10px; }
+.app-lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text2); }
+
+/* ══════════════════════════════════════════
+   PUBLICATIONS
+══════════════════════════════════════════ */
+#publications { background: var(--bg2); }
+.pub-layout {
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: 56px; margin-top: 56px; align-items: start;
+}
+.pub-sidebar {}
+.pub-fl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+.pub-filters { display: flex; flex-direction: column; gap: 2px; }
+.pub-fi {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 13px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+}
+.pub-fi:hover, .pub-fi.active { background: var(--glass-str); color: var(--text); }
+.pub-fi.active { border-left: 2px solid var(--text2); padding-left: 11px; }
+.pub-fi-cnt { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.scopus-btn {
+  margin-top: 24px; display: flex; align-items: center; gap: 10px;
+  padding: 13px 15px; border-radius: 10px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text2); background: var(--glass-bg); border: 1px solid var(--border-c);
+  transition: background 0.15s, color 0.15s;
+}
+.scopus-btn:hover { background: var(--glass-str); color: var(--text); }
+.scopus-btn svg { width: 15px; height: 15px; }
+
+.pub-list { display: flex; flex-direction: column; }
+.pub-item {
+  padding: 22px 0; border-bottom: 1px solid var(--border-c);
+  display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start;
+}
+.pub-i { font-family: var(--mono); font-size: 10.5px; color: var(--text3); padding-top: 3px; text-align: right; }
+.pub-title { font-size: 13.5px; font-weight: 500; color: var(--text); line-height: 1.55; margin-bottom: 5px; }
+.pub-authors { font-size: 12px; color: var(--text2); margin-bottom: 3px; }
+.pub-authors strong { color: var(--text); font-weight: 500; }
+.pub-journal { font-family: var(--mono); font-size: 10.5px; color: var(--text3); }
+.pub-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px; border-radius: 4px; font-family: var(--mono);
+  font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; margin-left: 7px;
+}
+.badge-sci { background: rgba(232,83,30,0.10); color: var(--accent2); border: 1px solid rgba(232,83,30,0.22); }
+.badge-scop { background: rgba(201,147,58,0.10); color: var(--gold); border: 1px solid rgba(201,147,58,0.25); }
+
+/* ══════════════════════════════════════════
+   MEMBERS
+══════════════════════════════════════════ */
+#members { background: var(--bg); }
+.members-grid {
+  display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+  gap: 1px; background: var(--border-c);
+  border-radius: 20px; overflow: hidden; margin-top: 56px;
+}
+.member-card {
+  padding: 28px 20px; text-align: center;
+  background: var(--glass-bg); backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+.member-card:hover { background: var(--glass-str); }
+.member-av {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--glass-str); border: 1.5px solid var(--border-c);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 22px; color: var(--text2);
+  margin: 0 auto 14px;
+}
+.member-av.pi { border-color: var(--border2-c); color: var(--text); }
+.member-name { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.member-name-en { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-bottom: 7px; }
+.member-role { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); }
+.member-card.pi .member-role { color: var(--text2); }
+.recruit-note {
+  margin-top: 20px; padding: 18px 22px; border-radius: 12px;
+  font-size: 13.5px; color: var(--text2);
+  border-left: 2px solid var(--accent);
+  background: var(--accent-glass);
+}
+
+/* ══════════════════════════════════════════
+   FACILITIES
+══════════════════════════════════════════ */
+#facilities { background: var(--bg2); }
+.fac-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 56px; }
+.fac-card {
+  border-radius: 14px; overflow: hidden;
+  background: var(--glass-bg); border: 1px solid var(--border-c);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s, background 0.2s;
+}
+.fac-card:hover { transform: translateY(-2px); background: var(--glass-str); }
+.fac-thumb {
+  height: 140px; background: var(--bg3);
+  border-bottom: 1px solid var(--border-c);
+  display: flex; align-items: center; justify-content: center;
+}
+.fac-thumb svg { width: 48px; height: 48px; stroke: var(--border2-c); }
+.fac-body { padding: 18px; }
+.fac-name { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.fac-spec { font-family: var(--mono); font-size: 10.5px; color: var(--text3); line-height: 1.7; }
+
+/* ══════════════════════════════════════════
+   CONTACT
+══════════════════════════════════════════ */
+#contact { background: var(--bg); }
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; margin-top: 56px; }
+.contact-block-title { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.contact-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: 13.5px; color: var(--text2); }
+.c-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px; fill: var(--text3); }
+.c-links { display: flex; flex-direction: column; gap: 9px; margin-top: 28px; }
+.c-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; border-radius: 12px;
+  font-size: 13px; color: var(--text2);
+  background: var(--glass-bg); border: 1px solid var(--border-c);
+  transition: background 0.15s, color 0.15s; backdrop-filter: blur(8px);
+}
+.c-link:hover { background: var(--glass-str); color: var(--text); }
+.c-link svg { width: 16px; height: 16px; flex-shrink: 0; stroke: var(--text3); }
+
+.contact-map {
+  border-radius: 20px; overflow: hidden;
+  background: var(--glass-bg); border: 1px solid var(--border-c);
+  min-height: 360px; display: flex; flex-direction: column;
+  backdrop-filter: blur(8px);
+}
+.map-bar {
+  padding: 14px 18px; border-bottom: 1px solid var(--border-c);
+  display: flex; align-items: center; gap: 8px;
+}
+.map-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text2); opacity: 0.5; }
+.map-bar-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text2); }
+.map-body {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  background: var(--bg3); position: relative; overflow: hidden;
+}
+.map-body svg { width: 100%; height: 100%; opacity: 0.1; }
+.map-overlay {
+  position: absolute; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.map-label-box {
+  background: var(--glass-str); border: 1px solid var(--border2-c);
+  border-radius: 10px; padding: 10px 16px; text-align: center;
+  backdrop-filter: blur(16px);
+}
+.map-label-box .ml1 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 3px; }
+.map-label-box .ml2 { font-size: 13.5px; font-weight: 500; color: var(--text); }
+.map-label-box .ml3 { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border-c);
+  padding: 44px 80px;
+  display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end;
+  transition: background 0.35s;
+}
+.footer-lab { font-family: var(--display); font-size: 20px; letter-spacing: 0.12em; color: var(--text); margin-bottom: 4px; }
+.footer-univ { font-size: 12.5px; color: var(--text3); margin-bottom: 14px; }
+.footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer-links a { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); transition: color 0.2s; }
+.footer-links a:hover { color: var(--text2); }
+.footer-right { font-family: var(--mono); font-size: 10px; color: var(--text3); text-align: right; line-height: 1.8; }
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim {
+  opacity: 0;
+  animation: fade-up 0.6s ease forwards;
+  animation-delay: calc(var(--d,0) * 120ms);
+}
+
+/* ══════════════════════════════════════════
+   EDITOR SYSTEM (preserved + updated)
+══════════════════════════════════════════ */
+.edit-fab {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--glass-str); border: 1px solid var(--border2-c);
+  backdrop-filter: blur(16px); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999; box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+.edit-fab:hover { transform: scale(1.08); }
+.edit-fab svg { width: 20px; height: 20px; fill: var(--text2); pointer-events: none; }
+
+.edit-panel {
+  position: fixed; top: 64px; right: 0; bottom: 0; width: 330px;
+  background: var(--bg2); border-left: 1px solid var(--border-c);
+  z-index: 998; display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.edit-panel.open { transform: translateX(0); }
+.ep-hdr { padding: 18px 18px 14px; border-bottom: 1px solid var(--border-c); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.ep-ttl { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); }
+.ep-tabs { display: flex; border-bottom: 1px solid var(--border-c); flex-shrink: 0; }
+.ep-tab { flex: 1; padding: 10px 6px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+.ep-tab.active { color: var(--text2); border-bottom-color: var(--text2); }
+.ep-body { flex: 1; overflow-y: auto; padding: 14px; }
+.ep-body::-webkit-scrollbar { width: 3px; }
+.ep-body::-webkit-scrollbar-thumb { background: var(--border-c); }
+.ep-grp { margin-bottom: 18px; }
+.ep-grp-t { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid var(--border-c); }
+.ep-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.ep-lbl { font-size: 12px; color: var(--text2); min-width: 80px; flex-shrink: 0; }
+.ep-in { flex: 1; background: var(--glass-bg); border: 1px solid var(--border-c); border-radius: 6px; padding: 6px 9px; font-size: 12px; color: var(--text); transition: border-color 0.15s; width: 100%; font-family: var(--sans); }
+.ep-in:focus { outline: none; border-color: var(--border2-c); }
+.ep-in[type="color"] { padding: 2px 3px; height: 30px; cursor: pointer; }
+.ep-in[type="range"] { padding: 0; height: 3px; border: none; background: none; accent-color: var(--text2); cursor: pointer; }
+.ep-ta { width: 100%; background: var(--glass-bg); border: 1px solid var(--border-c); border-radius: 6px; padding: 8px 9px; font-size: 12px; color: var(--text); resize: vertical; min-height: 64px; font-family: var(--sans); line-height: 1.6; }
+.ep-ta:focus { outline: none; border-color: var(--border2-c); }
+.ep-sel { flex: 1; background: var(--glass-bg); border: 1px solid var(--border-c); border-radius: 6px; padding: 6px 9px; font-size: 12px; color: var(--text); cursor: pointer; }
+.ep-sel option { background: var(--bg2); }
+.ep-btn { width: 100%; padding: 9px; background: var(--glass-str); border: 1px solid var(--border-c); border-radius: 8px; color: var(--text2); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-top: 4px; transition: background 0.15s, color 0.15s; }
+.ep-btn:hover { color: var(--text); background: var(--glass-bg); }
+.ep-savebar { padding: 10px 14px; border-top: 1px solid var(--border-c); display: flex; gap: 7px; flex-shrink: 0; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.shape-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+.shape-pill { padding: 4px 11px; border-radius: 100px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; cursor: pointer; border: 1px solid var(--border-c); background: var(--glass-bg); color: var(--text3); transition: all 0.15s; }
+.shape-pill:hover, .shape-pill.active { background: var(--glass-str); border-color: var(--border2-c); color: var(--text2); }
+body.edit-mode [data-edit]:hover { outline: 1.5px dashed var(--border2-c); outline-offset: 2px; cursor: pointer; border-radius: 2px; }
+body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outline-offset: 2px; }
+.inline-popup { position: fixed; background: var(--bg2); border: 1px solid var(--border2-c); border-radius: 10px; padding: 12px; z-index: 10000; min-width: 260px; max-width: 400px; box-shadow: var(--shadow); display: none; }
+.inline-popup.visible { display: block; }
+.inline-popup textarea { width: 100%; background: var(--glass-bg); border: 1px solid var(--border-c); border-radius: 6px; color: var(--text); font-family: var(--sans); font-size: 13px; padding: 8px; resize: vertical; min-height: 50px; }
+.inline-popup textarea:focus { outline: none; border-color: var(--border2-c); }
+.inline-popup .pa { display: flex; gap: 6px; margin-top: 7px; justify-content: flex-end; }
+.pb { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-family: var(--mono); cursor: pointer; border: none; }
+.pb.ok { background: var(--glass-str); color: var(--text); }
+.pb.cancel { background: var(--glass-bg); color: var(--text2); }
+
+/* responsive */
+@media (max-width:1100px) {
+  section { padding: 80px 40px; }
+  .hero { flex-direction: column; }
+  .hero-left, .hero-right { width: 100%; }
+  .hero-left { padding: 80px 40px 40px; }
+  .hero-right { padding: 0 40px 60px; min-height: 400px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .research-intro { grid-template-columns: 1fr; }
+  .res-grid { grid-template-columns: 1fr; }
+  .pub-layout { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; }
+  .divider { margin: 0 40px; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  footer { grid-template-columns: 1fr; padding: 36px 40px; }
+  .footer-right { text-align: left; }
+}
+@media (max-width: 768px) {
+  section { padding: 60px 20px; }
+  .hero-left { padding: 80px 20px 32px; }
+  .hero-right { padding: 0 20px 50px; }
+  .fac-grid { grid-template-columns: 1fr 1fr; }
+  .app-strip { grid-template-columns: 1fr 1fr; }
+  .divider { margin: 0 20px; }
+  footer { padding: 32px 20px; }
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2-c); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-hex"><span>HTM</span></div>
+    <div class="nav-lab-name">
+      <span class="n1" id="navLabKo">고온재료연구실</span>
+      <span class="n2" id="navLabEn">Pukyong National University</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-theme-pill" onclick="toggleTheme()" title="테마 전환">
+      <svg id="navThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <span id="navThemeLabel">라이트</span>
+    </button>
+    <a href="#contact" class="nav-contact glass-strong" style="padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);display:inline-flex;align-items:center;">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home" style="padding:0;">
+  <div class="hero-mesh"></div>
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-glass-panel glass-strong"></div>
+
+    <div class="hero-content" style="padding: 0 20px;">
+      <div class="hero-tag glass anim" style="--d:0">
+        <div class="hero-tag-dot"></div>
+        <span id="heroTag" data-edit>High Temperature Materials Lab · PKNU</span>
+      </div>
+
+      <div class="hero-h1 anim" style="--d:1">
+        HIGH<br>
+        <em>Temperature</em><br>
+        MATERIALS
+      </div>
+      <div class="hero-sub anim" style="--d:2">고온재료연구실</div>
+
+      <p class="hero-desc anim" style="--d:3" id="heroDesc" data-edit>
+        분말 야금 공정과 나노 입자 분산 강화 기구를 활용하여 고성능 내열합금 및 구조 부품 제조·접합 기술을 개발합니다. 항공우주·원자력·에너지 산업의 극한 환경용 소재를 연구합니다.
+      </p>
+
+      <div class="hero-cta-row anim" style="--d:4">
+        <a href="#research" class="btn-cta glass-strong">
+          <div class="btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          연구 분야
+        </a>
+        <a href="#publications" class="btn-cta glass">
+          <div class="btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"/><path d="M9 3v6h6"/></svg>
+          </div>
+          논문 목록
+        </a>
+      </div>
+
+      <div class="hero-pills anim" style="--d:5">
+        <span class="hero-pill glass">ODS 합금</span>
+        <span class="hero-pill glass">초내열합금</span>
+        <span class="hero-pill glass">분말야금·SPS</span>
+        <span class="hero-pill glass">원자력 구조재</span>
+      </div>
+
+      <div class="hero-quote anim" style="--d:6">
+        <div class="hero-quote-label">Research Vision</div>
+        <div class="hero-quote-text">"고온 환경의 한계를 넘어, 미래 산업을 위한 극한 소재를 개발한다."</div>
+        <div class="hero-quote-author">NOH SANG-HUN, PKNU</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="hero-right">
+    <div class="hero-right-top">
+      <button class="hero-icon-btn glass" onclick="toggleTheme()" title="테마 전환">
+        <svg id="heroThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="hero-icon-btn glass" onclick="window.open('https://www.scopus.com/authid/detail.uri?authorId=35307733900')" title="Scopus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      </button>
+      <button class="hero-icon-btn glass" onclick="window.open('mailto:nohssang@pknu.ac.kr')" title="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      </button>
+    </div>
+
+    <div class="canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+      <div class="canvas-hint">drag · scroll</div>
+    </div>
+
+    <div class="hero-stats glass" style="margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border-c);border-radius:14px;overflow:hidden;">
+      <div class="stat-box" style="background:var(--glass-bg);padding:14px 16px;">
+        <div class="stat-num">10+</div><div class="stat-lbl">Years Exp.</div>
+      </div>
+      <div class="stat-box" style="background:var(--glass-bg);padding:14px 16px;">
+        <div class="stat-num">SCI</div><div class="stat-lbl">Indexed</div>
+      </div>
+      <div class="stat-box" style="background:var(--glass-bg);padding:14px 16px;">
+        <div class="stat-num">ODS</div><div class="stat-lbl">Core Focus</div>
+      </div>
+      <div class="stat-box" style="background:var(--glass-bg);padding:14px 16px;">
+        <div class="stat-num">KAERI</div><div class="stat-lbl">Alumni</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="s-tag" data-n="01">About the Lab</div>
+  <h2 class="s-h2">PROFESSOR &<br>HISTORY</h2>
+
+  <div class="about-grid">
+    <div class="prof-card glass-strong">
+      <div class="prof-top">
+        <div class="prof-avatar">N</div>
+      </div>
+      <div class="prof-body">
+        <div class="prof-name-en" id="profNameEn" data-edit>No Sang-hun</div>
+        <div class="prof-name-ko" id="profNameKo" data-edit>노상훈 교수</div>
+        <div class="prof-badge" id="profDegree">에너지과학박사 · Professor</div>
+        <div class="prof-rows">
+          <div class="prof-row"><span class="prof-key">Dept.</span><span class="prof-val">융합소재공학부 재료공학전공</span></div>
+          <div class="prof-row"><span class="prof-key">Office</span><span class="prof-val" id="profOffice" data-edit>공학1관 (E13) 911호</span></div>
+          <div class="prof-row"><span class="prof-key">Tel</span><span class="prof-val" id="profTel" data-edit>+82-51-629-6359</span></div>
+          <div class="prof-row"><span class="prof-key">E-mail</span><span class="prof-val"><a href="/cdn-cgi/l/email-protection#234d4c4b5050424d446353484d560d42400d4851" id="profEmail" data-edit><span class="__cf_email__" data-cfemail="b5dbdaddc6c6d4dbd2f5c5dedbc09bd4d69bdec7">[email&#160;protected]</span></a></span></div>
+          <div class="prof-row"><span class="prof-key">Scopus</span><span class="prof-val"><a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank">Author ID: 35307733900</a></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right">
+      <div class="s-desc about-body" data-edit id="aboutBody">
+        고온재료연구실은 분말 야금 공정과 제2상 나노 입자 분산 강화 기구를 활용하여, 고온 내열기기용 핵심 구조 부품에 직접 적용이 가능한 <strong>고성능 내열합금 및 구조 부품 제조·접합 기술</strong>을 개발하고 있습니다. 화력 발전, 자동차, 선박, 항공우주, 원자력 및 핵융합 산업에서 요구되는 극한 환경용 소재 연구를 수행합니다.
+      </div>
+
+      <div class="research-focus glass">
+        <div class="research-focus-title">연구 핵심 주제</div>
+        <div class="research-focus-items">
+          <div class="rfi">ODS(산화물분산강화) 합금 기계적 합금화 및 소결 공정 최적화</div>
+          <div class="rfi">초내열합금 미세조직 제어 및 고온 기계적 특성 평가</div>
+          <div class="rfi">SPS(방전플라즈마소결) · HIP 공정을 통한 고밀도 부품 제조</div>
+          <div class="rfi">원자력·핵융합 구조재료의 중성자 조사 내성 및 손상 분석</div>
+          <div class="rfi">구조 부품 접합 기술 개발 (확산접합, 브레이징 등)</div>
+        </div>
+      </div>
+
+      <div class="s-tag" data-n="" style="margin-top:32px;margin-bottom:16px;">Career History</div>
+      <div class="career-list">
+        <div class="career-item">
+          <div class="career-yr">2020.09 ~<br>현재</div>
+          <div>
+            <div class="career-org">국립부경대학교 (Pukyong National University)</div>
+            <div class="career-role">조교수 / 부교수 · 융합소재공학부 재료공학전공</div>
+          </div>
+        </div>
+        <div class="career-item">
+          <div class="career-yr">2012.03 ~<br>2020.08</div>
+          <div>
+            <div class="career-org">한국원자력연구원 (KAERI)</div>
+            <div class="career-role">선임연구원 · Korea Atomic Energy Research Institute</div>
+          </div>
+        </div>
+        <div class="career-item">
+          <div class="career-yr">2011.04 ~<br>2012.03</div>
+          <div>
+            <div class="career-org">Japan Atomic Energy Agency (JAEA)</div>
+            <div class="career-role">Postdoctoral Researcher</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ RESEARCH ═══ -->
+<section id="research">
+  <div class="research-intro">
+    <div>
+      <div class="s-tag" data-n="02">Research Areas</div>
+      <h2 class="s-h2">RESEARCH</h2>
+    </div>
+    <p class="s-desc">세계적 수준의 연구 성과를 창출하며 지속 가능한 산업 기술 발전에 기여합니다. 재료의 미시 구조와 거시 성능 간 상관관계를 탐구합니다.</p>
+  </div>
+
+  <div class="res-grid">
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="res-title">ODS 합금<br>개발 및 특성</div>
+      <div class="res-desc">산화물 분산 강화 합금의 MA 공정, 고온 미세조직 안정성, 크리프 특성. 원자력·에너지 산업 구조재 적용 목표.</div>
+      <div class="res-n">01</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+      <div class="res-title">초내열합금<br>열처리 공정</div>
+      <div class="res-desc">Ni/Fe/Co 기반 초내열합금 γ/γ' 미세조직 제어, 열처리 최적화, 고온 산화·부식 저항성 분석. 항공우주·발전 터빈용.</div>
+      <div class="res-n">02</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+      <div class="res-title">고온 기계적<br>특성 평가</div>
+      <div class="res-desc">고온 인장·압축·크리프·피로 시험. EBSD/TEM 변형 메커니즘 분석. 재료 성능과 미시 구조 간 정량적 상관관계 규명.</div>
+      <div class="res-n">03</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M8 8h8M8 16h5"/></svg></div>
+      <div class="res-title">분말야금 &<br>소결 공정</div>
+      <div class="res-desc">기계적 합금화(MA), 방전 플라즈마 소결(SPS), 열간 등방압 성형(HIP)을 통한 고밀도 고온 소재 제조 공정 최적화.</div>
+      <div class="res-n">04</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      <div class="res-title">원자력 구조<br>재료 연구</div>
+      <div class="res-desc">핵분열·핵융합로 구조재 개발, 중성자 조사 내성 평가, 조사 손상 메커니즘 분석. KAERI 협력 연구 수행.</div>
+      <div class="res-n">05</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="res-title">구조 부품<br>접합 기술</div>
+      <div class="res-desc">확산접합, 브레이징 등 고온 구조 부품의 접합 기술 개발. 이종 재료 접합부 미세조직 분석 및 기계적 특성 평가.</div>
+      <div class="res-n">06</div>
+    </div>
+  </div>
+
+  <div class="app-strip">
+    <div class="app-card"><div class="app-icon">✈️</div><div class="app-lbl">Aerospace</div></div>
+    <div class="app-card"><div class="app-icon">⚛️</div><div class="app-lbl">Nuclear</div></div>
+    <div class="app-card"><div class="app-icon">⚡</div><div class="app-lbl">Energy</div></div>
+    <div class="app-card"><div class="app-icon">🚗</div><div class="app-lbl">Automotive</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PUBLICATIONS ═══ -->
+<section id="publications">
+  <div class="s-tag" data-n="03">Selected Works</div>
+  <h2 class="s-h2">PUBLICATIONS</h2>
+
+  <div class="pub-layout">
+    <div class="pub-sidebar">
+      <div class="pub-fl">Category</div>
+      <div class="pub-filters">
+        <div class="pub-fi active">All Papers <span class="pub-fi-cnt">—</span></div>
+        <div class="pub-fi">SCI/SCIE <span class="pub-fi-cnt">—</span></div>
+        <div class="pub-fi">Conference <span class="pub-fi-cnt">—</span></div>
+        <div class="pub-fi">Domestic <span class="pub-fi-cnt">—</span></div>
+      </div>
+      <a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank" class="scopus-btn glass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        Scopus Profile
+      </a>
+      <div style="margin-top:12px;padding:12px 14px;border-radius:10px;font-size:11.5px;color:var(--text3);line-height:1.7;background:var(--glass-bg);border:1px solid var(--border-c);">
+        * Scopus Author ID: 35307733900<br>전체 논문은 프로필에서 확인하세요.
+      </div>
+    </div>
+
+    <div class="pub-list">
+      <div class="pub-item">
+        <div class="pub-i">01</div>
+        <div>
+          <div class="pub-title">Microstructural evolution and mechanical properties of ODS ferritic steel during high-temperature deformation</div>
+          <div class="pub-authors"><strong>Noh, S.-H.</strong>, et al.</div>
+          <div class="pub-journal">Journal of Nuclear Materials · 2019 <span class="pub-badge badge-sci">SCIE</span></div>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-i">02</div>
+        <div>
+          <div class="pub-title">Effect of oxide particle distribution on creep behavior of 9Cr ODS steels fabricated by mechanical alloying and hot isostatic pressing</div>
+          <div class="pub-authors"><strong>Noh, S.-H.</strong>, Kim, T.-K., et al.</div>
+          <div class="pub-journal">Materials Science and Engineering: A · 2017 <span class="pub-badge badge-sci">SCIE</span></div>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-i">03</div>
+        <div>
+          <div class="pub-title">Characterization of 9Cr ODS steels: influence of MA and sintering parameters on mechanical properties at elevated temperatures</div>
+          <div class="pub-authors"><strong>Noh, S.</strong>, Choi, B.-K., Kim, T.-K., et al.</div>
+          <div class="pub-journal">Nuclear Engineering and Technology · 2015 <span class="pub-badge badge-scop">Scopus</span></div>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-i">04</div>
+        <div>
+          <div class="pub-title">High-temperature tensile and impact properties of 9Cr ODS ferritic-martensitic steel for nuclear applications</div>
+          <div class="pub-authors"><strong>Noh, S.-H.</strong>, Kang, S., Kim, T.-K.</div>
+          <div class="pub-journal">Journal of Nuclear Science and Technology · 2014 <span class="pub-badge badge-sci">SCIE</span></div>
+        </div>
+      </div>
+      <div class="pub-item" style="border-bottom:none;padding-bottom:0;">
+        <div class="pub-i">···</div>
+        <div>
+          <div class="pub-title" style="color:var(--text2);font-weight:300;">전체 논문 목록은 Scopus 프로필에서 확인하세요</div>
+          <div class="pub-journal"><a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank" style="color:var(--text2);">→ Scopus Profile (ID: 35307733900)</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ MEMBERS ═══ -->
+<section id="members">
+  <div class="s-tag" data-n="04">Lab Members</div>
+  <h2 class="s-h2">MEMBERS</h2>
+
+  <div class="members-grid">
+    <div class="member-card pi">
+      <div class="member-av pi">N</div>
+      <div class="member-name">노상훈</div>
+      <div class="member-name-en">No Sang-hun</div>
+      <div class="member-role">Principal Investigator</div>
+    </div>
+    <div class="member-card">
+      <div class="member-av">·</div>
+      <div class="member-name">박사과정</div>
+      <div class="member-name-en">Ph.D. Candidate</div>
+      <div class="member-role">Ph.D. Student</div>
+    </div>
+    <div class="member-card">
+      <div class="member-av">·</div>
+      <div class="member-name">박사과정</div>
+      <div class="member-name-en">Ph.D. Candidate</div>
+      <div class="member-role">Ph.D. Student</div>
+    </div>
+    <div class="member-card">
+      <div class="member-av">·</div>
+      <div class="member-name">석사과정</div>
+      <div class="member-name-en">M.S. Candidate</div>
+      <div class="member-role">M.S. Student</div>
+    </div>
+    <div class="member-card">
+      <div class="member-av">·</div>
+      <div class="member-name">석사과정</div>
+      <div class="member-name-en">M.S. Candidate</div>
+      <div class="member-role">M.S. Student</div>
+    </div>
+    <div class="member-card">
+      <div class="member-av">·</div>
+      <div class="member-name">학부연구생</div>
+      <div class="member-name-en">Undergraduate</div>
+      <div class="member-role">Undergraduate Researcher</div>
+    </div>
+  </div>
+
+  <div class="recruit-note" id="recruitText" data-edit>
+    🔬 <strong>대학원생 모집 중</strong> — 고성능 내열합금 및 분말야금 공정에 관심 있는 학생들의 지원을 환영합니다. 문의: <a href="/cdn-cgi/l/email-protection#85ebeaedf6f6e4ebe2c5f5eeebf0abe4e6abeef7" style="text-decoration:underline;text-underline-offset:3px;"><span class="__cf_email__" data-cfemail="254b4a4d5656444b4265554e4b500b44460b4e57">[email&#160;protected]</span></a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ FACILITIES ═══ -->
+<section id="facilities">
+  <div class="s-tag" data-n="05">Equipment</div>
+  <h2 class="s-h2">FACILITIES</h2>
+
+  <div class="fac-grid">
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><circle cx="32" cy="28" r="14"/><circle cx="32" cy="28" r="6"/><line x1="32" y1="14" x2="32" y2="8"/><line x1="32" y1="48" x2="32" y2="54"/><line x1="18" y1="28" x2="12" y2="28"/><line x1="52" y1="28" x2="46" y2="28"/></svg></div>
+      <div class="fac-body"><div class="fac-name">전자후방산란회절 (EBSD)</div><div class="fac-spec">Grain orientation · Texture analysis<br>Misorientation mapping</div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><rect x="12" y="20" width="40" height="28" rx="3"/><rect x="20" y="28" width="24" height="12" rx="2"/><line x1="32" y1="20" x2="32" y2="10"/><circle cx="32" cy="8" r="3"/></svg></div>
+      <div class="fac-body"><div class="fac-name">X선 회절 분석 (XRD)</div><div class="fac-spec">Phase identification · Lattice parameter<br>Residual stress measurement</div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><line x1="32" y1="8" x2="32" y2="56"/><rect x="16" y="20" width="32" height="8" rx="2"/><rect x="20" y="36" width="24" height="8" rx="2"/><circle cx="32" cy="52" r="4"/></svg></div>
+      <div class="fac-body"><div class="fac-name">고온 인장 시험기</div><div class="fac-spec">High-temperature tensile testing<br>Up to 1200°C · Creep test</div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><ellipse cx="32" cy="32" rx="16" ry="20"/><ellipse cx="32" cy="32" rx="8" ry="12"/><circle cx="32" cy="32" r="3"/></svg></div>
+      <div class="fac-body"><div class="fac-name">방전 플라즈마 소결 (SPS)</div><div class="fac-spec">Spark plasma sintering<br>Fast densification · ODS fabrication</div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><rect x="16" y="12" width="32" height="40" rx="4"/><line x1="24" y1="24" x2="40" y2="24"/><line x1="24" y1="32" x2="40" y2="32"/><line x1="24" y1="40" x2="34" y2="40"/></svg></div>
+      <div class="fac-body"><div class="fac-name">전자현미경 (SEM/TEM)</div><div class="fac-spec">Scanning / Transmission EM<br>EDS elemental mapping</div></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><circle cx="32" cy="32" r="18"/><path d="M20 20l24 24M20 44l24-24"/><circle cx="32" cy="32" r="4"/></svg></div>
+      <div class="fac-body"><div class="fac-name">기계적 합금화 (MA)</div><div class="fac-spec">High-energy ball milling<br>Powder metallurgy process</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="s-tag" data-n="06">Get in Touch</div>
+  <h2 class="s-h2">CONTACT</h2>
+
+  <div class="contact-layout">
+    <div>
+      <div class="contact-block-title">Lab Information</div>
+      <div class="contact-row">
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span id="contactAddr" data-edit>고온재료연구실 · 공학1관 (E13) 911호<br>45, Yongso-ro, Nam-gu, Busan 48513, Korea</span>
+      </div>
+      <div class="contact-row">
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        <span id="contactTel" data-edit>+82-51-629-6359</span>
+      </div>
+      <div class="contact-row">
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <a href="/cdn-cgi/l/email-protection#1a74757269697b747d5a6a71746f347b79347168" id="contactEmail" data-edit><span class="__cf_email__" data-cfemail="a7c9c8cfd4d4c6c9c0e7d7ccc9d289c6c489ccd5">[email&#160;protected]</span></a>
+      </div>
+
+      <div class="c-links">
+        <a href="https://www.pknu.ac.kr/main" target="_blank" class="c-link glass">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          국립부경대학교 홈페이지
+        </a>
+        <a href="https://materials-engineering.pknu.ac.kr/materials-eng" target="_blank" class="c-link glass">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          융합소재공학부 재료공학전공
+        </a>
+        <a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank" class="c-link glass">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Scopus Research Profile (ID: 35307733900)
+        </a>
+        <a href="https://materials-engineering.pknu.ac.kr/materials-eng/6451" target="_blank" class="c-link glass">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"/><path d="M9 3v6h6"/></svg>
+          고온재료연구실 (학과 공식 페이지)
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-map glass-strong">
+      <div class="map-bar">
+        <div class="map-dot"></div>
+        <span class="map-bar-title">국립부경대학교 · Nam-gu, Busan</span>
+      </div>
+      <div class="map-body">
+        <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="260" height="200" rx="4" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"/>
+          <rect x="40" y="40" width="80" height="50" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"/>
+          <rect x="140" y="40" width="60" height="35" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"/>
+          <rect x="40" y="110" width="60" height="40" rx="2" fill="var(--border2-c)" stroke="var(--border2-c)" stroke-width="1"/>
+          <rect x="120" y="95" width="70" height="65" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"/>
+          <rect x="210" y="110" width="50" height="55" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"/>
+          <text x="70" y="134" font-size="7" fill="var(--text3)" font-family="monospace" text-anchor="middle">E13</text>
+          <circle cx="70" cy="124" r="5" fill="var(--text2)" fill-opacity="0.5" stroke="var(--text2)" stroke-width="1.5"/>
+        </svg>
+        <div class="map-overlay">
+          <div class="map-label-box">
+            <div class="ml1">Location</div>
+            <div class="ml2">공학1관 (E13) 911호</div>
+            <div class="ml3">45 Yongso-ro, Nam-gu, Busan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>
+    <div class="footer-lab" id="footerLabName">HIGH TEMPERATURE MATERIALS LAB.</div>
+    <div class="footer-univ">국립부경대학교 융합소재공학부 재료공학전공</div>
+    <div class="footer-links">
+      <a href="#home">Home</a><a href="#about">About</a>
+      <a href="#research">Research</a><a href="#publications">Publications</a>
+      <a href="#members">Members</a><a href="#facilities">Facilities</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>Tel: 051-629-6359</div>
+    <div><a href="/cdn-cgi/l/email-protection#d1bfbeb9a2a2b0bfb691a1babfa4ffb0b2ffbaa3" style="color:var(--text2);"><span class="__cf_email__" data-cfemail="402e2f283333212e2700302b2e356e21236e2b32">[email&#160;protected]</span></a></div>
+    <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- ═══ INLINE POPUP ═══ -->
+<div class="inline-popup" id="inlinePopup">
+  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:var(--text3);text-transform:uppercase;margin-bottom:7px;">텍스트 편집 · Ctrl+Enter 저장</div>
+  <textarea id="inlineTextarea" rows="3"></textarea>
+  <div class="pa">
+    <button class="pb cancel" id="popupCancel">취소</button>
+    <button class="pb ok" id="popupOk">적용</button>
+  </div>
+</div>
+
+<!-- ═══ EDITOR FAB ═══ -->
+<button class="edit-fab glass-strong" id="editFab" title="페이지 편집">
+  <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+</button>
+
+<!-- ═══ EDITOR PANEL ═══ -->
+<div class="edit-panel" id="editPanel">
+  <div class="ep-hdr">
+    <span class="ep-ttl">🛠 페이지 편집기</span>
+    <button onclick="toggleEditor()" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;">×</button>
+  </div>
+  <div class="ep-tabs">
+    <button class="ep-tab active" onclick="switchTab('content',this)">콘텐츠</button>
+    <button class="ep-tab" onclick="switchTab('style',this)">스타일</button>
+    <button class="ep-tab" onclick="switchTab('3d',this)">3D</button>
+  </div>
+  <div class="ep-body">
+    <!-- CONTENT -->
+    <div class="tab-pane active" id="tab-content">
+      <div class="ep-grp">
+        <div class="ep-grp-t">헤더</div>
+        <div style="margin-bottom:6px;font-size:11px;color:var(--text3);">연구실명 (한)</div>
+        <input class="ep-in" id="ed-ko" value="고온재료연구실" oninput="applyContent()">
+        <div style="margin:8px 0 4px;font-size:11px;color:var(--text3);">연구실명 (영)</div>
+        <input class="ep-in" id="ed-en" value="High Temperature Materials Lab." oninput="applyContent()">
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">히어로</div>
+        <div style="margin-bottom:4px;font-size:11px;color:var(--text3);">태그라인</div>
+        <input class="ep-in" id="ed-htag" value="High Temperature Materials Lab · PKNU" oninput="applyContent()">
+        <div style="margin:8px 0 4px;font-size:11px;color:var(--text3);">설명 문구</div>
+        <textarea class="ep-ta" id="ed-hdesc" oninput="applyContent()">분말 야금 공정과 나노 입자 분산 강화 기구를 활용하여 고성능 내열합금 및 구조 부품 제조·접합 기술을 개발합니다. 항공우주·원자력·에너지 산업의 극한 환경용 소재를 연구합니다.</textarea>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">교수 정보</div>
+        <div class="ep-row"><span class="ep-lbl">이름 (영)</span><input class="ep-in" id="ed-pname" value="No Sang-hun" oninput="applyContent()"></div>
+        <div class="ep-row"><span class="ep-lbl">이름 (한)</span><input class="ep-in" id="ed-pnameko" value="노상훈 교수" oninput="applyContent()"></div>
+        <div class="ep-row"><span class="ep-lbl">Office</span><input class="ep-in" id="ed-office" value="공학1관 (E13) 911호" oninput="applyContent()"></div>
+        <div class="ep-row"><span class="ep-lbl">Tel</span><input class="ep-in" id="ed-tel" value="+82-51-629-6359" oninput="applyContent()"></div>
+        <div class="ep-row"><span class="ep-lbl">E-mail</span><input class="ep-in" id="ed-email" value="nohssang@pknu.ac.kr" oninput="applyContent()"></div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">인라인 클릭 편집</div>
+        <div style="font-size:11.5px;color:var(--text2);line-height:1.7;">편집 모드에서 점선 텍스트를 클릭하면 바로 편집할 수 있습니다.</div>
+        <button class="ep-btn" style="margin-top:8px;" onclick="toggleClickEdit()"><span id="clickEditLabel">클릭 편집 활성화</span></button>
+      </div>
+    </div>
+
+    <!-- STYLE -->
+    <div class="tab-pane" id="tab-style">
+      <div class="ep-grp">
+        <div class="ep-grp-t">테마</div>
+        <div class="ep-row">
+          <span class="ep-lbl">모드</span>
+          <select class="ep-sel" onchange="setTheme(this.value)">
+            <option value="dark">다크 모드</option>
+            <option value="light">라이트 모드</option>
+          </select>
+        </div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">글자 크기</div>
+        <div class="ep-row">
+          <span class="ep-lbl">히어로 H1</span>
+          <input class="ep-in" type="range" id="ed-h1" min="40" max="110" value="72" oninput="applyStyle()">
+          <span id="h1v" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:32px;">72</span>
+        </div>
+        <div class="ep-row">
+          <span class="ep-lbl">섹션 H2</span>
+          <input class="ep-in" type="range" id="ed-h2" min="28" max="80" value="56" oninput="applyStyle()">
+          <span id="h2v" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:32px;">56</span>
+        </div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">레이아웃</div>
+        <div class="ep-row">
+          <span class="ep-lbl">섹션 여백</span>
+          <input class="ep-in" type="range" id="ed-pad" min="40" max="160" value="100" oninput="applyStyle()">
+          <span id="padv" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:32px;">100</span>
+        </div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">배경 그리드</div>
+        <div class="ep-row">
+          <span class="ep-lbl">표시</span>
+          <select class="ep-sel" id="ed-grid" onchange="applyStyle()"><option value="1">켜기</option><option value="0">끄기</option></select>
+        </div>
+        <div class="ep-row">
+          <span class="ep-lbl">크기</span>
+          <input class="ep-in" type="range" id="ed-gridsize" min="20" max="120" value="56" oninput="applyStyle()">
+          <span id="gsv" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:32px;">56</span>
+        </div>
+      </div>
+      <button class="ep-btn" onclick="resetStyles()">스타일 초기화</button>
+    </div>
+
+    <!-- 3D -->
+    <div class="tab-pane" id="tab-3d">
+      <div class="ep-grp">
+        <div class="ep-grp-t">형태</div>
+        <div class="shape-pills" id="shapePills">
+          <span class="shape-pill active" data-shape="cylinder" onclick="changeShape('cylinder',this)">실린더 ★</span>
+          <span class="shape-pill" data-shape="sphere" onclick="changeShape('sphere',this)">구</span>
+          <span class="shape-pill" data-shape="torus" onclick="changeShape('torus',this)">토러스</span>
+          <span class="shape-pill" data-shape="icosahedron" onclick="changeShape('icosahedron',this)">이코사</span>
+          <span class="shape-pill" data-shape="octahedron" onclick="changeShape('octahedron',this)">옥타</span>
+          <span class="shape-pill" data-shape="dodecahedron" onclick="changeShape('dodecahedron',this)">도데카</span>
+          <span class="shape-pill" data-shape="torusknot" onclick="changeShape('torusknot',this)">매듭</span>
+        </div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">재질</div>
+        <div class="ep-row"><span class="ep-lbl">타입</span>
+          <select class="ep-sel" id="ed-mat" onchange="updateMaterial()">
+            <option value="standard">PBR Standard</option>
+            <option value="phong">Phong</option>
+            <option value="wireframe">와이어프레임</option>
+            <option value="normal">Normal Map</option>
+          </select>
+        </div>
+        <div class="ep-row"><span class="ep-lbl">메탈릭</span><input class="ep-in" type="range" id="ed-metal" min="0" max="100" value="100" oninput="updateMaterial()"><span id="metalv" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:28px;">100</span></div>
+        <div class="ep-row"><span class="ep-lbl">거칠기</span><input class="ep-in" type="range" id="ed-rough" min="0" max="100" value="3" oninput="updateMaterial()"><span id="roughv" style="font-family:var(--mono);font-size:10px;color:var(--text3);min-width:28px;">3</span></div>
+        <div class="ep-row"><span class="ep-lbl">색상</span><input class="ep-in" type="color" id="ed-color" value="#e8e8ea" oninput="updateMaterial()"></div>
+        <div class="ep-row"><span class="ep-lbl">자발광</span><input class="ep-in" type="color" id="ed-emissive" value="#050508" oninput="updateMaterial()"></div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">조명</div>
+        <div class="ep-row"><span class="ep-lbl">주조명</span><input class="ep-in" type="color" id="ed-l1" value="#ffffff" oninput="updateLights()"></div>
+        <div class="ep-row"><span class="ep-lbl">보조광</span><input class="ep-in" type="color" id="ed-l2" value="#88aadd" oninput="updateLights()"></div>
+        <div class="ep-row"><span class="ep-lbl">주조명 강도</span><input class="ep-in" type="range" id="ed-li" min="0" max="40" value="14" oninput="updateLights()"></div>
+        <div class="ep-row"><span class="ep-lbl">환경광</span><input class="ep-in" type="range" id="ed-amb" min="0" max="20" value="1" oninput="updateLights()"></div>
+      </div>
+      <div class="ep-grp">
+        <div class="ep-grp-t">동작</div>
+        <div class="ep-row"><span class="ep-lbl">자동회전</span><select class="ep-sel" id="ed-autorot" onchange="updateSettings()"><option value="1">켜기</option><option value="0">끄기</option></select></div>
+        <div class="ep-row"><span class="ep-lbl">속도</span><input class="ep-in" type="range" id="ed-rotspd" min="1" max="20" value="4" oninput="updateSettings()"></div>
+        <div class="ep-row"><span class="ep-lbl">크기</span><input class="ep-in" type="range" id="ed-scale" min="40" max="180" value="100" oninput="updateSettings()"></div>
+        <div class="ep-row"><span class="ep-lbl">파티클</span><select class="ep-sel" id="ed-part" onchange="updateSettings()"><option value="1">켜기</option><option value="0">끄기</option></select></div>
+      </div>
+      <button class="ep-btn" onclick="resetThree()">3D 초기화</button>
+    </div>
+  </div>
+  <div class="ep-savebar">
+    <button class="ep-btn" style="flex:1;" onclick="exportHTML()">💾 HTML 저장</button>
+    <button class="ep-btn" style="flex:1;" onclick="copyClip()">📋 클립보드</button>
+  </div>
+</div>
+
+<!-- ═══ THREE.JS ═══ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ════════════════════════════════
+// THEME SYSTEM
+// ════════════════════════════════
+let currentTheme = 'dark';
+function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+function setTheme(t) {
+  currentTheme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  const isDark = t === 'dark';
+  const moonPath = 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z';
+  const sunPath  = 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 000 14 7 7 0 000-14z';
+  const iconPath = isDark ? moonPath : sunPath;
+  document.getElementById('navThemeLabel').textContent = isDark ? '라이트' : '다크';
+  document.getElementById('navThemeIcon').querySelector('path')?.setAttribute('d', iconPath);
+  document.getElementById('heroThemeIcon').querySelector('path')?.setAttribute('d', iconPath);
+  const sel = document.querySelector('#tab-style .ep-sel');
+  if (sel) sel.value = t;
+  // Refresh env map when theme changes
+  if (renderer) buildEnvMap();
+}
+
+// ════════════════════════════════
+// THREE.JS — CHROME CYLINDER SCENE
+// Replicating: highly polished chrome cylinder,
+// deep black reflections, bright white glare
+// ════════════════════════════════
+let scene, camera, renderer, mesh, pSys, envMap;
+let isDrag = false, prevMx = 0, prevMy = 0;
+let autoRot = true, rotSpd = 0.003;
+let curShape = 'cylinder', t3 = 0;
+let lights3 = {};
+
+// ── Procedural environment map (cube camera) ──
+function buildEnvMap() {
+  // We paint a fake HDRI environment manually using a cube render target
+  // Dark background with strategic bright light bars (mimics studio setup)
+  const size = 256;
+  const data = new Uint8Array(6 * size * size * 4);
+  const faces = 6;
+
+  // Face definitions: generate a studio-like environment
+  // Dominant black with white/orange accent strips
+  for (let face = 0; face < faces; face++) {
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const idx = (face * size * size + y * size + x) * 4;
+        const u = x / size, v = y / size;
+
+        let r = 0, g = 0, b = 0, a = 255;
+
+        // Base: near-black
+        r = 5; g = 4; b = 3;
+
+        // Face 0 (PX - right): bright vertical strip = main key light
+        if (face === 0) {
+          if (u > 0.35 && u < 0.65) {
+            const blend = Math.sin((u - 0.35) / 0.3 * Math.PI);
+            const vBlend = 1 - Math.abs(v - 0.5) * 0.6;
+            r = Math.round(5  + 255 * blend * vBlend * 0.95);
+            g = Math.round(4  + 245 * blend * vBlend * 0.95);
+            b = Math.round(3  + 235 * blend * vBlend * 0.90);
+          }
+          // Thin bright seam left
+          if (u < 0.06) { r = 200; g = 195; b = 185; }
+        }
+
+        // Face 1 (NX - left): secondary fill — cool blue-white
+        if (face === 1) {
+          if (u > 0.3 && u < 0.7) {
+            const blend = Math.sin((u - 0.3) / 0.4 * Math.PI) * 0.55;
+            const vb = 1 - Math.abs(v - 0.45) * 0.7;
+            r = Math.round(5  + 120 * blend * vb);
+            g = Math.round(4  + 135 * blend * vb);
+            b = Math.round(3  + 160 * blend * vb);
+          }
+          if (u > 0.94) { r = 180; g = 190; b = 210; }
+        }
+
+        // Face 2 (PY - top): soft overhead
+        if (face === 2) {
+          const d = Math.sqrt((u-0.5)**2 + (v-0.5)**2);
+          if (d < 0.38) {
+            const bl = (1 - d / 0.38) * 0.6;
+            r = Math.round(5 + 200 * bl);
+            g = Math.round(4 + 195 * bl);
+            b = Math.round(3 + 190 * bl);
+          }
+        }
+
+        // Face 3 (NY - bottom): dark ground
+        if (face === 3) {
+          r = 3; g = 3; b = 2;
+        }
+
+        // Face 4 (PZ - front): orange accent glow strip
+        if (face === 4) {
+          if (u > 0.1 && u < 0.35) {
+            const blend = Math.sin((u - 0.1) / 0.25 * Math.PI) * 0.5;
+            r = Math.round(5  + 232 * blend);
+            g = Math.round(4  + 83  * blend * 0.4);
+            b = Math.round(3  + 30  * blend * 0.1);
+          }
+          // Bright right rim
+          if (u > 0.85) {
+            const bl = (u - 0.85) / 0.15;
+            r = Math.round(5  + 230 * bl * 0.7);
+            g = Math.round(4  + 220 * bl * 0.7);
+            b = Math.round(3  + 210 * bl * 0.7);
+          }
+        }
+
+        // Face 5 (NZ - back): clean dark
+        if (face === 5) {
+          r = 4; g = 3; b = 2;
+          if (u < 0.08) { r = 210; g = 205; b = 195; }
+        }
+
+        data[idx]   = Math.min(255, r);
+        data[idx+1] = Math.min(255, g);
+        data[idx+2] = Math.min(255, b);
+        data[idx+3] = a;
+      }
+    }
+  }
+
+  const textures = [];
+  const order = [0, 1, 2, 3, 4, 5];
+  order.forEach(face => {
+    const faceData = new Uint8Array(size * size * 4);
+    for (let i = 0; i < size * size * 4; i++) {
+      faceData[i] = data[face * size * size * 4 + i];
+    }
+    const tex = new THREE.DataTexture(faceData, size, size, THREE.RGBAFormat);
+    tex.needsUpdate = true;
+    textures.push(tex);
+  });
+
+  envMap = new THREE.CubeTexture(
+    textures.map(t => {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(size, size);
+      imageData.data.set(t.image.data);
+      ctx.putImageData(imageData, 0, 0);
+      return canvas;
+    })
+  );
+  envMap.encoding = THREE.sRGBEncoding;
+  envMap.needsUpdate = true;
+  scene.environment = envMap;
+  scene.background = null;
+
+  if (mesh && mesh.material.envMap !== undefined) {
+    mesh.material.envMap = envMap;
+    mesh.material.needsUpdate = true;
+  }
+}
+
+function initThree() {
+  const canvas = document.getElementById('hero-canvas');
+  const wrap = canvas.parentElement;
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.set(0, 0, 5.2);
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, logarithmicDepthBuffer: true });
+  const sz = Math.min(wrap.clientWidth, 520);
+  renderer.setSize(sz, sz);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.physicallyCorrectLights = true;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.8;
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  // ── Build environment map first ──
+  buildEnvMap();
+
+  // ── LIGHTS — studio chrome setup ──
+  // Very dim ambient (chrome is reflective, not diffuse)
+  const ambient = new THREE.AmbientLight(0xffffff, 0.15);
+  scene.add(ambient);
+  lights3.ambient = ambient;
+
+  // Key light — blazing white overhead-front (creates bright top + left stripe)
+  const key = new THREE.DirectionalLight(0xffffff, 28);
+  key.position.set(2.5, 6, 4);
+  key.castShadow = true;
+  scene.add(key);
+  lights3.key = key;
+
+  // Fill light — cool blue from left (creates the reflective gradient on left side)
+  const fill = new THREE.DirectionalLight(0x88aadd, 10);
+  fill.position.set(-5, 2, 3);
+  scene.add(fill);
+  lights3.fill = fill;
+
+  // Rim back-right — creates the bright silver rim on right edge
+  const rim = new THREE.DirectionalLight(0xffffff, 14);
+  rim.position.set(4, 1, -3);
+  scene.add(rim);
+  lights3.rim = rim;
+
+  // Top overhead point — creates the dome-like top reflection
+  const top = new THREE.PointLight(0xffffff, 20, 15);
+  top.position.set(0, 6, 2);
+  scene.add(top);
+  lights3.top = top;
+
+  // Orange accent — very subtle warm glow from front-left (matches our theme)
+  const orange = new THREE.PointLight(0xff5500, 4, 10);
+  orange.position.set(-3, 0, 3);
+  scene.add(orange);
+  lights3.orange = orange;
+
+  // Narrow spot — the dark vertical stripe in image center (no light there)
+  // Achieved by NOT placing a light in the center-front zone
+
+  // Orbiting specular point for animation
+  const orb = new THREE.PointLight(0xffffff, 8, 12);
+  orb.position.set(3, 2, 3);
+  scene.add(orb);
+  lights3.orb = orb;
+
+  createMesh('cylinder');
+  createParticles();
+
+  // ── Events ──
+  canvas.addEventListener('mousedown', e => { isDrag = true; prevMx = e.clientX; prevMy = e.clientY; });
+  window.addEventListener('mouseup',   () => { isDrag = false; });
+  window.addEventListener('mousemove', e => {
+    if (!isDrag || !mesh) return;
+    mesh.rotation.y += (e.clientX - prevMx) * 0.006;
+    mesh.rotation.x += (e.clientY - prevMy) * 0.006;
+    prevMx = e.clientX; prevMy = e.clientY;
+  });
+  canvas.addEventListener('touchstart', e => { isDrag=true; prevMx=e.touches[0].clientX; prevMy=e.touches[0].clientY; e.preventDefault(); }, { passive:false });
+  window.addEventListener('touchend',   () => { isDrag = false; });
+  window.addEventListener('touchmove',  e => {
+    if (!isDrag || !mesh) return;
+    mesh.rotation.y += (e.touches[0].clientX - prevMx) * 0.006;
+    mesh.rotation.x += (e.touches[0].clientY - prevMy) * 0.006;
+    prevMx = e.touches[0].clientX; prevMy = e.touches[0].clientY;
+  });
+  canvas.addEventListener('wheel', e => {
+    camera.position.z = Math.max(2.5, Math.min(9, camera.position.z + e.deltaY * 0.004));
+    e.preventDefault();
+  }, { passive: false });
+
+  const ro = new ResizeObserver(() => {
+    const s = Math.min(wrap.clientWidth, 520);
+    renderer.setSize(s, s);
+    camera.updateProjectionMatrix();
+  });
+  ro.observe(wrap);
+
+  animate();
+}
+
+function createGeo(shape) {
+  switch(shape) {
+    // Default: rounded cylinder matching the photo exactly
+    // Photo: short-ish cylinder, slightly wider than tall, with rounded top edge
+    case 'cylinder':
+      // Use many segments for smooth reflection gradients
+      return new THREE.CylinderGeometry(0.82, 0.82, 1.55, 128, 32, false);
+    case 'sphere':       return new THREE.SphereGeometry(1.15, 128, 128);
+    case 'torus':        return new THREE.TorusGeometry(0.9, 0.35, 64, 128);
+    case 'icosahedron':  return new THREE.IcosahedronGeometry(1.15, 4);
+    case 'octahedron':   return new THREE.OctahedronGeometry(1.2, 3);
+    case 'dodecahedron': return new THREE.DodecahedronGeometry(1.0, 2);
+    case 'torusknot':    return new THREE.TorusKnotGeometry(0.75, 0.24, 200, 32);
+    default:             return new THREE.CylinderGeometry(0.82, 0.82, 1.55, 128, 32, false);
+  }
+}
+
+function createMesh(shape) {
+  if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+
+  const matType   = document.getElementById('ed-mat')?.value || 'standard';
+  const colorHex  = document.getElementById('ed-color')?.value    || '#e8e8ea';
+  const emHex     = document.getElementById('ed-emissive')?.value || '#050508';
+  const metalness = (document.getElementById('ed-metal')?.value   || 100) / 100;
+  const roughness = (document.getElementById('ed-rough')?.value   || 3)   / 100;
+
+  let mat;
+  if (matType === 'wireframe') {
+    mat = new THREE.MeshBasicMaterial({ color: colorHex, wireframe: true });
+  } else if (matType === 'phong') {
+    mat = new THREE.MeshPhongMaterial({ color: colorHex, specular: 0xffffff, shininess: 500 });
+  } else if (matType === 'normal') {
+    mat = new THREE.MeshNormalMaterial();
+  } else {
+    // ── PBR CHROME / MIRROR METAL ──
+    // Matches the uploaded image: near-perfect mirror finish
+    mat = new THREE.MeshStandardMaterial({
+      color:             new THREE.Color(colorHex),
+      metalness,                   // 1.0 = pure metal
+      roughness,                   // ~0.03 = nearly perfect mirror
+      emissive:          new THREE.Color(emHex),
+      emissiveIntensity: 0.02,
+      envMap,                      // custom studio env map
+      envMapIntensity:   2.2,      // crank reflections up
+    });
+  }
+
+  const geo = createGeo(shape);
+
+  // For cylinder: chamfer/bevel the top edge vertices
+  // so the top rim has a rounded highlight like in the photo
+  if ((shape === 'cylinder' || shape === undefined) && mat.type === 'MeshStandardMaterial') {
+    const pos = geo.attributes.position;
+    const bevelR = 0.82, bevelH = 1.55 / 2;
+    const bevelWidth = 0.06;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+      const r = Math.sqrt(x*x + z*z);
+      // Top edge bevel
+      if (y > bevelH - bevelWidth * 2 && Math.abs(r - bevelR) < 0.05) {
+        const progress = (y - (bevelH - bevelWidth * 2)) / (bevelWidth * 2);
+        const inset = Math.sin(progress * Math.PI * 0.5) * bevelWidth * 0.7;
+        const scale = (bevelR - inset) / (r || 1);
+        pos.setXYZ(i, x * scale, y, z * scale);
+      }
+      // Bottom edge bevel
+      if (y < -bevelH + bevelWidth * 2 && Math.abs(r - bevelR) < 0.05) {
+        const progress = (-y - (bevelH - bevelWidth * 2)) / (bevelWidth * 2);
+        const inset = Math.sin(progress * Math.PI * 0.5) * bevelWidth * 0.5;
+        const scale = (bevelR - inset) / (r || 1);
+        pos.setXYZ(i, x * scale, y, z * scale);
+      }
+    }
+    geo.computeVertexNormals();
+  }
+
+  mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+  mesh.receiveShadow = false;
+  const sc = (document.getElementById('ed-scale')?.value || 100) / 100;
+  mesh.scale.setScalar(sc);
+  // Initial orientation: show from slight above-front, matching photo
+  mesh.rotation.x = 0.08;
+  scene.add(mesh);
+  curShape = shape;
+}
+
+function createParticles() {
+  if (pSys) scene.remove(pSys);
+  const cnt = 240, pos = new Float32Array(cnt * 3);
+  for (let i = 0; i < cnt; i++) {
+    pos[i*3]   = (Math.random()-0.5)*10;
+    pos[i*3+1] = (Math.random()-0.5)*10;
+    pos[i*3+2] = (Math.random()-0.5)*10;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  // Particles: some white (sparks), some orange (embers)
+  const mat = new THREE.PointsMaterial({ color: 0xff7030, size: 0.016, transparent: true, opacity: 0.38 });
+  pSys = new THREE.Points(geo, mat);
+  scene.add(pSys);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  t3 += 0.01;
+
+  if (mesh && autoRot && !isDrag) {
+    mesh.rotation.y += rotSpd;
+    // Subtle bob: mimics the slight tilt in the photo
+    mesh.rotation.x = 0.08 + Math.sin(t3 * 0.2) * 0.04;
+  }
+
+  if (pSys && document.getElementById('ed-part')?.value !== '0') {
+    pSys.rotation.y += 0.0005;
+  }
+
+  // Orbit the main specular point light slowly
+  // This makes the bright strip sweep around the cylinder
+  lights3.orb.position.x = Math.sin(t3 * 0.4) * 4.5;
+  lights3.orb.position.z = Math.cos(t3 * 0.4) * 4.5;
+  lights3.orb.position.y = 2 + Math.sin(t3 * 0.2) * 1;
+
+  renderer.render(scene, camera);
+}
+
+function tryInit(n = 0) {
+  if (typeof THREE !== 'undefined') initThree();
+  else if (n < 40) setTimeout(() => tryInit(n+1), 150);
+}
+tryInit();
+
+// ── 3D Controls ──
+function changeShape(s, el) {
+  document.querySelectorAll('.shape-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  createMesh(s);
+}
+function updateMaterial() {
+  document.getElementById('metalv').textContent = document.getElementById('ed-metal').value;
+  document.getElementById('roughv').textContent = document.getElementById('ed-rough').value;
+  createMesh(curShape);
+}
+function updateLights() {
+  if (!lights3.key) return;
+  lights3.key.color.set(document.getElementById('ed-l1').value);
+  lights3.fill.color.set(document.getElementById('ed-l2').value);
+  lights3.key.intensity  = parseFloat(document.getElementById('ed-li').value) * 2;
+  lights3.ambient.intensity = parseFloat(document.getElementById('ed-amb').value) / 10;
+}
+function updateSettings() {
+  autoRot = document.getElementById('ed-autorot')?.value !== '0';
+  rotSpd  = parseFloat(document.getElementById('ed-rotspd')?.value || 3) * 0.001;
+  if (mesh) mesh.scale.setScalar((document.getElementById('ed-scale')?.value || 100) / 100);
+  if (pSys) pSys.visible = document.getElementById('ed-part')?.value !== '0';
+}
+function resetThree() {
+  ['ed-mat','ed-metal','ed-rough','ed-color','ed-emissive','ed-l1','ed-l2','ed-li','ed-amb','ed-scale','ed-part','ed-autorot','ed-rotspd'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const defaults = { 'ed-mat':'standard','ed-metal':'100','ed-rough':'3','ed-color':'#e8e8ea','ed-emissive':'#050508','ed-l1':'#ffffff','ed-l2':'#88aadd','ed-li':'14','ed-amb':'1','ed-scale':'100','ed-part':'1','ed-autorot':'1','ed-rotspd':'3' };
+    el.value = defaults[id] || el.defaultValue;
+  });
+  createMesh('cylinder');
+  updateLights();
+  updateSettings();
+  document.querySelectorAll('.shape-pill').forEach(p => p.classList.toggle('active', p.dataset.shape === 'cylinder'));
+}
+
+// ════════════════════════════════
+// EDITOR SYSTEM
+// ════════════════════════════════
+let editorOpen = false, clickEditOn = false, curEl = null;
+
+function toggleEditor() {
+  editorOpen = !editorOpen;
+  document.getElementById('editPanel').classList.toggle('open', editorOpen);
+  document.body.classList.toggle('edit-mode', editorOpen || clickEditOn);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ep-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Content map
+const cmap = {
+  'ed-ko':     ['#navLabKo'],
+  'ed-en':     ['#navLabEn', '#footerLabName'],
+  'ed-htag':   ['#heroTag'],
+  'ed-hdesc':  ['#heroDesc'],
+  'ed-pname':  ['#profNameEn'],
+  'ed-pnameko':['#profNameKo'],
+  'ed-office': ['#profOffice'],
+  'ed-tel':    ['#profTel', '#contactTel'],
+  'ed-email':  ['#profEmail', '#contactEmail'],
+};
+function applyContent() {
+  Object.entries(cmap).forEach(([id, sels]) => {
+    const v = document.getElementById(id)?.value || '';
+    sels.forEach(s => { const el = document.querySelector(s); if (el) el.textContent = v; });
+  });
+  const email = document.getElementById('ed-email')?.value || '';
+  document.querySelectorAll('[href^="mailto:"]').forEach(a => a.href = 'mailto:' + email);
+}
+
+function applyStyle() {
+  const h1 = document.getElementById('ed-h1')?.value;
+  if (h1) { document.getElementById('h1v').textContent = h1; document.querySelector('.hero-h1').style.fontSize = h1 + 'px'; }
+  const h2 = document.getElementById('ed-h2')?.value;
+  if (h2) { document.getElementById('h2v').textContent = h2; document.querySelectorAll('.s-h2').forEach(e => e.style.fontSize = h2 + 'px'); }
+  const pad = document.getElementById('ed-pad')?.value;
+  if (pad) { document.getElementById('padv').textContent = pad; document.querySelectorAll('section:not(#home)').forEach(s => { s.style.paddingTop = pad + 'px'; s.style.paddingBottom = pad + 'px'; }); }
+  const grid = document.getElementById('ed-grid')?.value;
+  const gsize = document.getElementById('ed-gridsize')?.value;
+  if (gsize) document.getElementById('gsv').textContent = gsize;
+  let gs = document.getElementById('dyn-grid'); if (!gs) { gs = document.createElement('style'); gs.id = 'dyn-grid'; document.head.appendChild(gs); }
+  if (grid === '0') { gs.textContent = '.hero-mesh::after{display:none}'; }
+  else if (gsize) { gs.textContent = `.hero-mesh::after{background-size:${gsize}px ${gsize}px!important}`; }
+  else { gs.textContent = ''; }
+}
+
+function resetStyles() {
+  document.querySelector('.hero-h1').style.fontSize = '';
+  document.querySelectorAll('.s-h2').forEach(e => e.style.fontSize = '');
+  document.querySelectorAll('section').forEach(s => { s.style.paddingTop = ''; s.style.paddingBottom = ''; });
+  const gs = document.getElementById('dyn-grid'); if (gs) gs.textContent = '';
+}
+
+function toggleClickEdit() {
+  clickEditOn = !clickEditOn;
+  document.body.classList.toggle('edit-mode', clickEditOn || editorOpen);
+  document.getElementById('clickEditLabel').textContent = clickEditOn ? '클릭 편집 비활성화' : '클릭 편집 활성화';
+  if (!clickEditOn) hidePopup();
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-edit]');
+  if (!el || (!clickEditOn && !editorOpen)) return;
+  e.preventDefault(); e.stopPropagation();
+  if (curEl) curEl.classList.remove('editing');
+  curEl = el; el.classList.add('editing');
+  const popup = document.getElementById('inlinePopup');
+  document.getElementById('inlineTextarea').value = el.innerText;
+  popup.classList.add('visible');
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let l = e.clientX, tp = e.clientY + 12;
+  if (l + 420 > vw) l = vw - 430;
+  if (tp + 160 > vh) tp = e.clientY - 150;
+  popup.style.left = Math.max(8,l) + 'px';
+  popup.style.top  = Math.max(8,tp) + 'px';
+  document.getElementById('inlineTextarea').focus();
+});
+
+function hidePopup() {
+  document.getElementById('inlinePopup').classList.remove('visible');
+  if (curEl) { curEl.classList.remove('editing'); curEl = null; }
+}
+document.getElementById('popupOk').addEventListener('click', () => {
+  if (curEl) curEl.innerText = document.getElementById('inlineTextarea').value;
+  hidePopup();
+});
+document.getElementById('popupCancel').addEventListener('click', hidePopup);
+document.getElementById('inlineTextarea').addEventListener('keydown', e => {
+  if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') { if (curEl) curEl.innerText = e.target.value; hidePopup(); }
+  if (e.key === 'Escape') hidePopup();
+});
+
+function exportHTML() {
+  const b = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'pknu_htm_lab.html';
+  a.click();
+}
+function copyClip() {
+  navigator.clipboard.writeText(document.documentElement.outerHTML).then(() => {
+    const b = event.target;
+    b.textContent = '✅ 복사됨';
+    setTimeout(() => b.textContent = '📋 클립보드', 2000);
+  });
+}
+
+document.getElementById('editFab').addEventListener('click', toggleEditor);
+
+// ════════════════════════════════
+// NAV ACTIVE + SCROLL REVEAL
+// ════════════════════════════════
+const secs = document.querySelectorAll('section[id]');
+const nls  = document.querySelectorAll('.nav-links a[href^="#"]');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      nls.forEach(a => a.style.color = '');
+      const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (a) a.style.color = 'var(--text)';
+    }
+  });
+}, { threshold: 0.3 }).observe && secs.forEach(s => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        nls.forEach(a => a.style.color = '');
+        const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (a) a.style.color = 'var(--text)';
+      }
+    });
+  }, { threshold: 0.3 }).observe(s);
+});
+
+const revEls = document.querySelectorAll('.res-card,.member-card,.fac-card,.pub-item,.career-item,.app-card');
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      revObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+revEls.forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = `opacity 0.5s ease ${(i%6)*0.07}s, transform 0.5s ease ${(i%6)*0.07}s`;
+  revObs.observe(el);
+});
+</script>
+</body>
+</html>
