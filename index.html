@@ -1,10 +1,12 @@
-<html lang="ko" data-theme="dark"><head>
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>고온재료연구실 | 국립부경대학교</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Playfair+Display:ital,wght@0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
 /* ══════════════════════════════════════════
@@ -230,6 +232,16 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.7em;
   color: var(--accent2);
   letter-spacing: 0.01em;
+}
+.hero-h1-lab {
+  font-family: 'Bebas Neue', var(--display), sans-serif !important;
+  font-size: 0.46em !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.28em;
+  color: var(--text2);
+  display: inline-block;
+  line-height: 1.4;
 }
 
 .hero-sub {
@@ -782,7 +794,7 @@ section { padding: 100px 80px; transition: background 0.35s; }
    FACILITIES
 ══════════════════════════════════════════ */
 #facilities { background: var(--bg2); }
-.fac-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 56px; }
+.fac-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 14px; margin-top: 0; }
 .fac-card {
   border-radius: 14px; overflow: hidden;
   background: var(--glass-bg); border: 1px solid var(--border-c);
@@ -791,11 +803,16 @@ section { padding: 100px 80px; transition: background 0.35s; }
 }
 .fac-card:hover { transform: translateY(-2px); background: var(--glass-str); }
 .fac-thumb {
-  height: 140px; background: var(--bg3);
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--bg3);
   border-bottom: 1px solid var(--border-c);
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  position: relative;
 }
-.fac-thumb svg { width: 48px; height: 48px; stroke: var(--border2-c); }
+.fac-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fac-thumb svg { width: 52px; height: 52px; stroke: var(--border2-c); }
 .fac-body { padding: 18px; }
 .fac-name { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
 .fac-spec { font-family: var(--mono); font-size: 10.5px; color: var(--text3); line-height: 1.7; }
@@ -822,7 +839,7 @@ section { padding: 100px 80px; transition: background 0.35s; }
 .contact-map {
   border-radius: 20px; overflow: hidden;
   background: var(--glass-bg); border: 1px solid var(--border-c);
-  min-height: 360px; display: flex; flex-direction: column;
+  min-height: 420px; display: flex; flex-direction: column;
   backdrop-filter: blur(8px);
 }
 .map-bar {
@@ -982,9 +999,52 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   transition: background 0.12s, color 0.12s;
 }
 .rt-btn:hover { background: var(--glass-str); color: var(--text); }
+
+/* ── Facilities filter tabs ── */
+.fac-ftab {
+  padding: 7px 18px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid var(--border-c);
+  background: var(--glass-bg);
+  color: var(--text2);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fac-ftab:hover, .fac-ftab.active {
+  background: var(--accent-glass2);
+  border-color: rgba(232,83,30,0.35);
+  color: var(--accent2);
+}
+.fac-cnt {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  background: var(--glass-bg);
+  padding: 1px 6px;
+  border-radius: 100px;
+  border: 1px solid var(--border-c);
+}
+.fac-ftab.active .fac-cnt {
+  color: var(--accent);
+  border-color: rgba(232,83,30,0.3);
+}
+/* hide animation for filtered cards */
+.fac-card.hidden {
+  display: none;
+}
+.fac-card {
+  transition: opacity 0.2s, transform 0.2s;
+}
 </style>
 </head>
-<body class="edit-mode">
+<body>
 
 <!-- ═══ NAV ═══ -->
 <nav>
@@ -1005,7 +1065,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   </ul>
   <div class="nav-right">
     <button class="nav-theme-pill" onclick="toggleTheme()" title="테마 전환">
-      <svg id="navThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+      <svg id="navThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       <span id="navThemeLabel">라이트</span>
     </button>
     <a href="#contact" class="nav-contact glass-strong" style="padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);display:inline-flex;align-items:center;">Contact</a>
@@ -1023,31 +1083,31 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
     <div class="hero-content" style="padding: 0 20px;">
       <div class="hero-tag glass anim" style="--d:0">
         <div class="hero-tag-dot"></div>
-        <span id="heroTag" data-edit="">High Temperature Materials Lab · PKNU</span>
+        <span id="heroTag" data-edit>High Temperature Materials Lab · PKNU</span>
       </div>
 
       <div class="hero-h1 anim" style="--d:1">
         HIGH<br>
         <em>Temperature</em><br>
-        MATERIALS<br>
-        <span style="font-size:0.38em;letter-spacing:0.18em;color:var(--text2);font-family:var(--mono);font-weight:400;">LAB.</span>
+        MATERIALS
       </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,2.6vw,40px);letter-spacing:0.28em;color:var(--text2);margin-top:2px;margin-bottom:0;line-height:1;font-style:normal;font-weight:400;">LAB.</div>
       <div class="hero-sub anim" style="--d:2">고온재료연구실</div>
 
-      <p class="hero-desc anim" style="--d:3" id="heroDesc" data-edit="">
+      <p class="hero-desc anim" style="--d:3" id="heroDesc" data-edit>
         분말 야금 공정과 나노 입자 분산 강화 기구를 활용하여 고성능 내열합금 및 구조 부품 제조·접합 기술을 개발합니다. 항공우주·원자력·에너지 산업의 극한 환경용 소재를 연구합니다.
       </p>
 
       <div class="hero-cta-row anim" style="--d:4">
         <a href="#research" class="btn-cta glass-strong">
           <div class="btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
           연구 분야
         </a>
         <a href="#publications" class="btn-cta glass">
           <div class="btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"></path><path d="M9 3v6h6"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"/><path d="M9 3v6h6"/></svg>
           </div>
           논문 목록
         </a>
@@ -1072,18 +1132,18 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   <div class="hero-right">
     <div class="hero-right-top">
       <button class="hero-icon-btn glass" onclick="toggleTheme()" title="테마 전환">
-        <svg id="heroThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+        <svg id="heroThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
       <button class="hero-icon-btn glass" onclick="window.open('https://www.scopus.com/authid/detail.uri?authorId=35307733900')" title="Scopus">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
       </button>
       <button class="hero-icon-btn glass" onclick="window.open('mailto:nohssang@pknu.ac.kr')" title="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,12 2,6"></polyline></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
       </button>
     </div>
 
     <div class="canvas-wrap">
-      <canvas id="hero-canvas" width="520" height="520" style="width: 520px; height: 520px;"></canvas>
+      <canvas id="hero-canvas"></canvas>
       <div class="canvas-hint">drag · scroll</div>
     </div>
 
@@ -1109,7 +1169,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
 <!-- ═══ ABOUT ═══ -->
 <section id="about">
   <div class="s-tag" data-n="01">About the Lab</div>
-  <h2 class="s-h2">PROFESSOR &amp;<br>HISTORY</h2>
+  <h2 class="s-h2">PROFESSOR &<br>HISTORY</h2>
 
   <div class="about-grid">
     <div class="prof-card glass-strong">
@@ -1117,21 +1177,21 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
         <div class="prof-avatar">N</div>
       </div>
       <div class="prof-body">
-        <div class="prof-name-en" id="profNameEn" data-edit="">Noh Sang-hoon</div>
-        <div class="prof-name-ko" id="profNameKo" data-edit="">노상훈 교수</div>
+        <div class="prof-name-en" id="profNameEn" data-edit>Noh Sang-hoon</div>
+        <div class="prof-name-ko" id="profNameKo" data-edit>노상훈 교수</div>
         <div class="prof-badge" id="profDegree">에너지과학박사 · Professor</div>
         <div class="prof-rows">
           <div class="prof-row"><span class="prof-key">Dept.</span><span class="prof-val">융합소재공학부 재료공학전공</span></div>
-          <div class="prof-row"><span class="prof-key">Office</span><span class="prof-val" id="profOffice" data-edit="">공학1관 (E13) 911호</span></div>
-          <div class="prof-row"><span class="prof-key">Tel</span><span class="prof-val" id="profTel" data-edit="">+82-51-629-6359</span></div>
-          <div class="prof-row"><span class="prof-key">E-mail</span><span class="prof-val"><a href="/cdn-cgi/l/email-protection#234d4c4b5050424d446353484d560d42400d4851" id="profEmail" data-edit=""><span class="__cf_email__" data-cfemail="b5dbdaddc6c6d4dbd2f5c5dedbc09bd4d69bdec7">[email&nbsp;protected]</span></a></span></div>
+          <div class="prof-row"><span class="prof-key">Office</span><span class="prof-val" id="profOffice" data-edit>공학1관 (E13) 911호</span></div>
+          <div class="prof-row"><span class="prof-key">Tel</span><span class="prof-val" id="profTel" data-edit>+82-51-629-6359</span></div>
+          <div class="prof-row"><span class="prof-key">E-mail</span><span class="prof-val"><a href="/cdn-cgi/l/email-protection#234d4c4b5050424d446353484d560d42400d4851" id="profEmail" data-edit><span class="__cf_email__" data-cfemail="b5dbdaddc6c6d4dbd2f5c5dedbc09bd4d69bdec7">[email&#160;protected]</span></a></span></div>
           <div class="prof-row"><span class="prof-key">Scopus</span><span class="prof-val"><a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank">Author ID: 35307733900</a></span></div>
         </div>
       </div>
     </div>
 
     <div class="about-right">
-      <div class="s-desc about-body" data-edit="" id="aboutBody">
+      <div class="s-desc about-body" data-edit id="aboutBody">
         고온재료연구실은 분말 야금 공정과 제2상 나노 입자 분산 강화 기구를 활용하여, 고온 내열기기용 핵심 구조 부품에 직접 적용이 가능한 <strong>고성능 내열합금 및 구조 부품 제조·접합 기술</strong>을 개발하고 있습니다. 화력 발전, 자동차, 선박, 항공우주, 원자력 및 핵융합 산업에서 요구되는 극한 환경용 소재 연구를 수행합니다.
       </div>
 
@@ -1148,21 +1208,21 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
 
       <div class="s-tag" data-n="" style="margin-top:32px;margin-bottom:16px;">Career History</div>
       <div class="career-list">
-        <div class="career-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s;">
+        <div class="career-item">
           <div class="career-yr">2020.09 ~<br>현재</div>
           <div>
             <div class="career-org">국립부경대학교 (Pukyong National University)</div>
             <div class="career-role">조교수 / 부교수 · 융합소재공학부 재료공학전공</div>
           </div>
         </div>
-        <div class="career-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.07s, transform 0.5s 0.07s;">
+        <div class="career-item">
           <div class="career-yr">2012.03 ~<br>2020.08</div>
           <div>
             <div class="career-org">한국원자력연구원 (KAERI)</div>
             <div class="career-role">선임연구원 · Korea Atomic Energy Research Institute</div>
           </div>
         </div>
-        <div class="career-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.14s, transform 0.5s 0.14s;">
+        <div class="career-item">
           <div class="career-yr">2011.04 ~<br>2012.03</div>
           <div>
             <div class="career-org">Japan Atomic Energy Agency (JAEA)</div>
@@ -1187,38 +1247,38 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   </div>
 
   <div class="res-grid">
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.21s, transform 0.5s 0.21s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
       <div class="res-title">ODS 합금<br>개발 및 특성</div>
       <div class="res-desc">산화물 분산 강화 합금의 MA 공정, 고온 미세조직 안정성, 크리프 특성. 원자력·에너지 산업 구조재 적용 목표.</div>
       <div class="res-n">01</div>
     </div>
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.28s, transform 0.5s 0.28s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path></svg></div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
       <div class="res-title">초내열합금<br>열처리 공정</div>
       <div class="res-desc">Ni/Fe/Co 기반 초내열합금 γ/γ' 미세조직 제어, 열처리 최적화, 고온 산화·부식 저항성 분석. 항공우주·발전 터빈용.</div>
       <div class="res-n">02</div>
     </div>
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.35s, transform 0.5s 0.35s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"></path></svg></div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
       <div class="res-title">고온 기계적<br>특성 평가</div>
       <div class="res-desc">고온 인장·압축·크리프·피로 시험. EBSD/TEM 변형 메커니즘 분석. 재료 성능과 미시 구조 간 정량적 상관관계 규명.</div>
       <div class="res-n">03</div>
     </div>
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M8 12h8M8 8h8M8 16h5"></path></svg></div>
-      <div class="res-title">분말야금 &amp;<br>소결 공정</div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M8 8h8M8 16h5"/></svg></div>
+      <div class="res-title">분말야금 &<br>소결 공정</div>
       <div class="res-desc">기계적 합금화(MA), 방전 플라즈마 소결(SPS), 열간 등방압 성형(HIP)을 통한 고밀도 고온 소재 제조 공정 최적화.</div>
       <div class="res-n">04</div>
     </div>
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.07s, transform 0.5s 0.07s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
       <div class="res-title">원자력 구조<br>재료 연구</div>
       <div class="res-desc">핵분열·핵융합로 구조재 개발, 중성자 조사 내성 평가, 조사 손상 메커니즘 분석. KAERI 협력 연구 수행.</div>
       <div class="res-n">05</div>
     </div>
-    <div class="res-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.14s, transform 0.5s 0.14s;">
-      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+    <div class="res-card">
+      <div class="res-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
       <div class="res-title">구조 부품<br>접합 기술</div>
       <div class="res-desc">확산접합, 브레이징 등 고온 구조 부품의 접합 기술 개발. 이종 재료 접합부 미세조직 분석 및 기계적 특성 평가.</div>
       <div class="res-n">06</div>
@@ -1226,10 +1286,10 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   </div>
 
   <div class="app-strip">
-    <div class="app-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.21s, transform 0.5s 0.21s;"><div class="app-icon">✈️</div><div class="app-lbl">Aerospace</div></div>
-    <div class="app-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.28s, transform 0.5s 0.28s;"><div class="app-icon">⚛️</div><div class="app-lbl">Nuclear</div></div>
-    <div class="app-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.35s, transform 0.5s 0.35s;"><div class="app-icon">⚡</div><div class="app-lbl">Energy</div></div>
-    <div class="app-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s;"><div class="app-icon">🚗</div><div class="app-lbl">Automotive</div></div>
+    <div class="app-card"><div class="app-icon">✈️</div><div class="app-lbl">Aerospace</div></div>
+    <div class="app-card"><div class="app-icon">⚛️</div><div class="app-lbl">Nuclear</div></div>
+    <div class="app-card"><div class="app-icon">⚡</div><div class="app-lbl">Energy</div></div>
+    <div class="app-card"><div class="app-icon">🚗</div><div class="app-lbl">Automotive</div></div>
   </div>
 </section>
 
@@ -1250,7 +1310,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
         <div class="pub-fi">Domestic <span class="pub-fi-cnt">—</span></div>
       </div>
       <a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank" class="scopus-btn glass">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
         Scopus Profile
       </a>
       <div style="margin-top:12px;padding:12px 14px;border-radius:10px;font-size:11.5px;color:var(--text3);line-height:1.7;background:var(--glass-bg);border:1px solid var(--border-c);">
@@ -1259,7 +1319,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
     </div>
 
     <div class="pub-list">
-      <div class="pub-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.07s, transform 0.5s 0.07s;">
+      <div class="pub-item">
         <div class="pub-i">01</div>
         <div>
           <div class="pub-title">Microstructural evolution and mechanical properties of ODS ferritic steel during high-temperature deformation</div>
@@ -1267,7 +1327,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
           <div class="pub-journal">Journal of Nuclear Materials · 2019 <span class="pub-badge badge-sci">SCIE</span></div>
         </div>
       </div>
-      <div class="pub-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.14s, transform 0.5s 0.14s;">
+      <div class="pub-item">
         <div class="pub-i">02</div>
         <div>
           <div class="pub-title">Effect of oxide particle distribution on creep behavior of 9Cr ODS steels fabricated by mechanical alloying and hot isostatic pressing</div>
@@ -1275,7 +1335,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
           <div class="pub-journal">Materials Science and Engineering: A · 2017 <span class="pub-badge badge-sci">SCIE</span></div>
         </div>
       </div>
-      <div class="pub-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.21s, transform 0.5s 0.21s;">
+      <div class="pub-item">
         <div class="pub-i">03</div>
         <div>
           <div class="pub-title">Characterization of 9Cr ODS steels: influence of MA and sintering parameters on mechanical properties at elevated temperatures</div>
@@ -1283,7 +1343,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
           <div class="pub-journal">Nuclear Engineering and Technology · 2015 <span class="pub-badge badge-scop">Scopus</span></div>
         </div>
       </div>
-      <div class="pub-item" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.28s, transform 0.5s 0.28s;">
+      <div class="pub-item">
         <div class="pub-i">04</div>
         <div>
           <div class="pub-title">High-temperature tensile and impact properties of 9Cr ODS ferritic-martensitic steel for nuclear applications</div>
@@ -1291,7 +1351,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
           <div class="pub-journal">Journal of Nuclear Science and Technology · 2014 <span class="pub-badge badge-sci">SCIE</span></div>
         </div>
       </div>
-      <div class="pub-item" style="border-bottom: none; padding-bottom: 0px; opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.35s, transform 0.5s 0.35s;">
+      <div class="pub-item" style="border-bottom:none;padding-bottom:0;">
         <div class="pub-i">···</div>
         <div>
           <div class="pub-title" style="color:var(--text2);font-weight:300;">전체 논문 목록은 Scopus 프로필에서 확인하세요</div>
@@ -1309,32 +1369,44 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
 <section id="facilities">
   <div class="s-tag" data-n="05">Equipment</div>
   <h2 class="s-h2">FACILITIES</h2>
+  <p class="s-desc" style="margin-bottom:28px;">고온재료연구실 보유 장비 목록입니다. 카드를 클릭하면 사진을 추가할 수 있습니다.</p>
 
-  <div class="fac-grid">
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><circle cx="32" cy="28" r="14"></circle><circle cx="32" cy="28" r="6"></circle><line x1="32" y1="14" x2="32" y2="8"></line><line x1="32" y1="48" x2="32" y2="54"></line><line x1="18" y1="28" x2="12" y2="28"></line><line x1="52" y1="28" x2="46" y2="28"></line></svg></div>
-      <div class="fac-body"><div class="fac-name">전자후방산란회절 (EBSD)</div><div class="fac-spec">Grain orientation · Texture analysis<br>Misorientation mapping</div></div>
+  <!-- Category filter tabs -->
+  <div id="facFilterRow" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px;">
+    <button class="fac-ftab active" onclick="filterFac('all',this)">전체 <span class="fac-cnt" id="cnt-all"></span></button>
+    <button class="fac-ftab" onclick="filterFac('소결·성형',this)">소결·성형</button>
+    <button class="fac-ftab" onclick="filterFac('기계시험',this)">기계시험</button>
+    <button class="fac-ftab" onclick="filterFac('열처리',this)">열처리</button>
+    <button class="fac-ftab" onclick="filterFac('시편제작',this)">시편제작</button>
+    <button class="fac-ftab" onclick="filterFac('연마',this)">연마</button>
+    <button class="fac-ftab" onclick="filterFac('적층제조',this)">적층제조</button>
+    <button class="fac-ftab" onclick="filterFac('분말처리',this)">분말처리</button>
+  </div>
+
+  <!-- Photo upload modal for facilities -->
+  <div id="facPhotoModal" style="display:none;position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);align-items:center;justify-content:center;">
+    <div style="background:var(--bg2);border:1px solid var(--border2-c);border-radius:20px;width:min(420px,92vw);padding:24px;">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">장비 사진</div>
+      <div id="facModalTitle" style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:14px;">사진 추가</div>
+      <div id="facDrop" style="border:2px dashed var(--border2-c);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;"
+        onclick="document.getElementById('facFileInput').click()"
+        ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+        ondragleave="this.style.borderColor='var(--border2-c)'"
+        ondrop="facHandleDrop(event)">
+        <div style="font-size:28px;margin-bottom:8px;">📷</div>
+        <div style="font-size:13px;color:var(--text2);">클릭 또는 드래그해서 사진 선택</div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:4px;">JPG · PNG · WEBP</div>
+      </div>
+      <input type="file" id="facFileInput" accept="image/*" style="display:none" onchange="facHandleFile(this)">
+      <img id="facPreview" style="display:none;width:100%;border-radius:10px;max-height:180px;object-fit:cover;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;">
+        <button onclick="document.getElementById('facPhotoModal').style.display='none'" style="flex:1;padding:9px;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;color:var(--text2);font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">취소</button>
+        <button onclick="applyFacPhoto()" style="flex:2;padding:9px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">✓ 적용</button>
+      </div>
     </div>
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.07s, transform 0.5s 0.07s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><rect x="12" y="20" width="40" height="28" rx="3"></rect><rect x="20" y="28" width="24" height="12" rx="2"></rect><line x1="32" y1="20" x2="32" y2="10"></line><circle cx="32" cy="8" r="3"></circle></svg></div>
-      <div class="fac-body"><div class="fac-name">X선 회절 분석 (XRD)</div><div class="fac-spec">Phase identification · Lattice parameter<br>Residual stress measurement</div></div>
-    </div>
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.14s, transform 0.5s 0.14s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><line x1="32" y1="8" x2="32" y2="56"></line><rect x="16" y="20" width="32" height="8" rx="2"></rect><rect x="20" y="36" width="24" height="8" rx="2"></rect><circle cx="32" cy="52" r="4"></circle></svg></div>
-      <div class="fac-body"><div class="fac-name">고온 인장 시험기</div><div class="fac-spec">High-temperature tensile testing<br>Up to 1200°C · Creep test</div></div>
-    </div>
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.21s, transform 0.5s 0.21s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><ellipse cx="32" cy="32" rx="16" ry="20"></ellipse><ellipse cx="32" cy="32" rx="8" ry="12"></ellipse><circle cx="32" cy="32" r="3"></circle></svg></div>
-      <div class="fac-body"><div class="fac-name">방전 플라즈마 소결 (SPS)</div><div class="fac-spec">Spark plasma sintering<br>Fast densification · ODS fabrication</div></div>
-    </div>
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.28s, transform 0.5s 0.28s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><rect x="16" y="12" width="32" height="40" rx="4"></rect><line x1="24" y1="24" x2="40" y2="24"></line><line x1="24" y1="32" x2="40" y2="32"></line><line x1="24" y1="40" x2="34" y2="40"></line></svg></div>
-      <div class="fac-body"><div class="fac-name">전자현미경 (SEM/TEM)</div><div class="fac-spec">Scanning / Transmission EM<br>EDS elemental mapping</div></div>
-    </div>
-    <div class="fac-card" style="opacity: 0; transform: translateY(14px); transition: opacity 0.5s 0.35s, transform 0.5s 0.35s;">
-      <div class="fac-thumb"><svg viewBox="0 0 64 64" fill="none" stroke-width="1.5"><circle cx="32" cy="32" r="18"></circle><path d="M20 20l24 24M20 44l24-24"></path><circle cx="32" cy="32" r="4"></circle></svg></div>
-      <div class="fac-body"><div class="fac-name">기계적 합금화 (MA)</div><div class="fac-spec">High-energy ball milling<br>Powder metallurgy process</div></div>
-    </div>
+  </div>
+
+  <div class="fac-grid" id="facGrid">
   </div>
 </section>
 
@@ -1349,33 +1421,33 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
     <div>
       <div class="contact-block-title">Lab Information</div>
       <div class="contact-row">
-        <svg class="c-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
-        <span id="contactAddr" data-edit="">고온재료연구실 · 공학1관 (E13) 911호<br>45, Yongso-ro, Nam-gu, Busan 48513, Korea</span>
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span id="contactAddr" data-edit>고온재료연구실 · 공학1관 (E13) 911호<br>45, Yongso-ro, Nam-gu, Busan 48513, Korea</span>
       </div>
       <div class="contact-row">
-        <svg class="c-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
-        <span id="contactTel" data-edit="">+82-51-629-6359</span>
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        <span id="contactTel" data-edit>+82-51-629-6359</span>
       </div>
       <div class="contact-row">
-        <svg class="c-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-        <a href="/cdn-cgi/l/email-protection#1a74757269697b747d5a6a71746f347b79347168" id="contactEmail" data-edit=""><span class="__cf_email__" data-cfemail="a7c9c8cfd4d4c6c9c0e7d7ccc9d289c6c489ccd5">[email&nbsp;protected]</span></a>
+        <svg class="c-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <a href="/cdn-cgi/l/email-protection#1a74757269697b747d5a6a71746f347b79347168" id="contactEmail" data-edit><span class="__cf_email__" data-cfemail="a7c9c8cfd4d4c6c9c0e7d7ccc9d289c6c489ccd5">[email&#160;protected]</span></a>
       </div>
 
       <div class="c-links">
         <a href="https://www.pknu.ac.kr/main" target="_blank" class="c-link glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           국립부경대학교 홈페이지
         </a>
         <a href="https://materials-engineering.pknu.ac.kr/materials-eng" target="_blank" class="c-link glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           융합소재공학부 재료공학전공
         </a>
         <a href="https://www.scopus.com/authid/detail.uri?authorId=35307733900" target="_blank" class="c-link glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
           Scopus Research Profile (ID: 35307733900)
         </a>
         <a href="https://materials-engineering.pknu.ac.kr/materials-eng/6451" target="_blank" class="c-link glass">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"></path><path d="M9 3v6h6"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V9l-6-6z"/><path d="M9 3v6h6"/></svg>
           고온재료연구실 (학과 공식 페이지)
         </a>
       </div>
@@ -1384,25 +1456,25 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
     <div class="contact-map glass-strong">
       <div class="map-bar">
         <div class="map-dot"></div>
-        <span class="map-bar-title">국립부경대학교 · Nam-gu, Busan</span>
+        <span class="map-bar-title">국립부경대학교 공학1관 · Nam-gu, Busan</span>
+        <a href="https://maps.google.com/?q=국립부경대학교+공학1관+부산+남구+용소로+45" target="_blank"
+           style="margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent3);display:flex;align-items:center;gap:5px;white-space:nowrap;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Google Maps
+        </a>
       </div>
-      <div class="map-body">
-        <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="20" width="260" height="200" rx="4" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"></rect>
-          <rect x="40" y="40" width="80" height="50" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"></rect>
-          <rect x="140" y="40" width="60" height="35" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"></rect>
-          <rect x="40" y="110" width="60" height="40" rx="2" fill="var(--border2-c)" stroke="var(--border2-c)" stroke-width="1"></rect>
-          <rect x="120" y="95" width="70" height="65" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"></rect>
-          <rect x="210" y="110" width="50" height="55" rx="2" fill="var(--border-c)" stroke="var(--border2-c)" stroke-width="0.5"></rect>
-          <text x="70" y="134" font-size="7" fill="var(--text3)" font-family="monospace" text-anchor="middle">E13</text>
-          <circle cx="70" cy="124" r="5" fill="var(--text2)" fill-opacity="0.5" stroke="var(--text2)" stroke-width="1.5"></circle>
-        </svg>
-        <div class="map-overlay">
-          <div class="map-label-box">
-            <div class="ml1">Location</div>
-            <div class="ml2">공학1관 (E13) 911호</div>
-            <div class="ml3">45 Yongso-ro, Nam-gu, Busan</div>
-          </div>
+      <div style="flex:1;min-height:340px;position:relative;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d819.5!2d129.10043!3d35.13367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568eda6a8aa9b09%3A0x560a19f1e8c71d62!2z67mE6rCc67Cf6rCV64Ko7ZWY7ZW0!5e0!3m2!1sko!2skr!4v1700000000000!5m2!1sko!2skr"
+          width="100%" height="100%"
+          style="position:absolute;inset:0;border:none;filter:grayscale(20%) contrast(1.05);"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <!-- overlay label -->
+        <div style="position:absolute;bottom:12px;left:12px;background:var(--bg2);border:1px solid var(--border2-c);border-radius:10px;padding:9px 14px;backdrop-filter:blur(12px);pointer-events:none;">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px;">Location</div>
+          <div style="font-size:13.5px;font-weight:500;color:var(--text);">공학1관 (E13) 911호</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text3);">45 Yongso-ro, Nam-gu, Busan</div>
         </div>
       </div>
     </div>
@@ -1424,7 +1496,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   </div>
   <div class="footer-right">
     <div>Tel: 051-629-6359</div>
-    <div><a href="/cdn-cgi/l/email-protection#d1bfbeb9a2a2b0bfb691a1babfa4ffb0b2ffbaa3" style="color:var(--text2);"><span class="__cf_email__" data-cfemail="402e2f283333212e2700302b2e356e21236e2b32">[email&nbsp;protected]</span></a></div>
+    <div><a href="/cdn-cgi/l/email-protection#d1bfbeb9a2a2b0bfb691a1babfa4ffb0b2ffbaa3" style="color:var(--text2);"><span class="__cf_email__" data-cfemail="402e2f283333212e2700302b2e356e21236e2b32">[email&#160;protected]</span></a></div>
     <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
   </div>
 </footer>
@@ -1434,7 +1506,11 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   <div style="background:var(--bg2);border:1px solid var(--border2-c);border-radius:20px;width:min(460px,92vw);padding:26px;position:relative;max-height:90vh;overflow-y:auto;">
     <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">이미지 편집기</div>
     <div id="imgModalTitle" style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:18px;">사진 교체</div>
-    <div id="imgDropZone" style="border:2px dashed var(--border2-c);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:14px;" onclick="document.getElementById('imgFileInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--accent)';this.style.background='var(--accent-glass)'" ondragleave="this.style.borderColor='var(--border2-c)';this.style.background=''" ondrop="handleImgDrop(event)">
+    <div id="imgDropZone" style="border:2px dashed var(--border2-c);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:14px;"
+      onclick="document.getElementById('imgFileInput').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--accent)';this.style.background='var(--accent-glass)'"
+      ondragleave="this.style.borderColor='var(--border2-c)';this.style.background=''"
+      ondrop="handleImgDrop(event)">
       <div style="font-size:28px;margin-bottom:8px;">📁</div>
       <div style="font-size:13px;color:var(--text2);margin-bottom:3px;">클릭하거나 드래그해서 사진 올리기</div>
       <div style="font-size:10px;color:var(--text3);font-family:var(--mono);">JPG · PNG · GIF · WEBP</div>
@@ -1472,7 +1548,9 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
     </div>
     <div style="margin-bottom:14px;">
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">또는 이미지 URL 직접 입력</div>
-      <input id="imgUrlInput" type="url" placeholder="https://example.com/image.jpg" style="width:100%;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:var(--sans);" oninput="previewFromUrl()">
+      <input id="imgUrlInput" type="url" placeholder="https://example.com/image.jpg"
+        style="width:100%;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:var(--sans);"
+        oninput="previewFromUrl()">
     </div>
     <div style="display:flex;gap:8px;">
       <button onclick="closeImgModal()" style="flex:1;padding:10px;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;color:var(--text2);font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">취소</button>
@@ -1512,7 +1590,9 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
       <button class="rt-btn" onclick="rtInsertImage()" title="이미지 삽입">🖼</button>
       <button class="rt-btn" onclick="rtCmd('removeFormat')" title="서식 초기화" style="color:var(--accent);">✕</button>
     </div>
-    <div id="rtEditor" contenteditable="true" style="min-height:130px;max-height:300px;overflow-y:auto;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:14px;font-size:14px;color:var(--text);line-height:1.8;outline:none;font-family:var(--sans);" onkeydown="if((event.ctrlKey||event.metaKey)&amp;&amp;event.key==='Enter'){applyRt();}"></div>
+    <div id="rtEditor" contenteditable="true"
+      style="min-height:130px;max-height:300px;overflow-y:auto;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;padding:14px;font-size:14px;color:var(--text);line-height:1.8;outline:none;font-family:var(--sans);"
+      onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){applyRt();}"></div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:5px;">Ctrl+Enter 로 저장</div>
     <div style="display:flex;gap:8px;margin-top:12px;">
       <button onclick="closeRtModal()" style="flex:1;padding:10px;background:var(--glass-bg);border:1px solid var(--border-c);border-radius:8px;color:var(--text2);font-family:var(--mono);font-size:10px;text-transform:uppercase;cursor:pointer;">취소</button>
@@ -1533,11 +1613,11 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
 
 <!-- ═══ EDITOR FAB ═══ -->
 <button class="edit-fab glass-strong" id="editFab" title="페이지 편집">
-  <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></svg>
+  <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
 </button>
 
 <!-- ═══ EDITOR PANEL ═══ -->
-<div class="edit-panel open" id="editPanel">
+<div class="edit-panel" id="editPanel">
   <div class="ep-hdr">
     <span class="ep-ttl">🛠 페이지 편집기</span>
     <button onclick="toggleEditor()" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;">×</button>
@@ -2586,6 +2666,152 @@ function applyRt() {
   closeRtModal();
 }
 
-</script>
 
-</body></html>
+// ════════════════════════════════
+// FACILITIES DATA & RENDER
+// ════════════════════════════════
+const FACILITIES = [
+  { id:'f01', name:'SPS 소결기',           model:'JM-SPS-2300C-50D',                          cat:'소결·성형', photo:'' },
+  { id:'f02', name:'경도시험기',            model:'Hardness Tester',                            cat:'기계시험', photo:'' },
+  { id:'f03', name:'박스로',               model:'Box Furnace',                                cat:'열처리', photo:'' },
+  { id:'f03b',name:'박스로',               model:'Box Furnace #2',                             cat:'열처리', photo:'' },
+  { id:'f04', name:'마운팅',               model:'Mounting Press',                             cat:'시편제작', photo:'' },
+  { id:'f05', name:'컷팅기',               model:'Cutting Machine',                            cat:'시편제작', photo:'' },
+  { id:'f06', name:'수동연마기',            model:'Korea-Tech / P2-200D, 250D, 300D',           cat:'연마', photo:'' },
+  { id:'f07', name:'수동연마기',            model:'BUEHLER / EcoMet 30 Manual Grinder-Polisher',cat:'연마', photo:'' },
+  { id:'f08', name:'자동연마기',            model:'BUEHLER / EcoMet 30 Semi-Automatic Grinder-Polisher', cat:'연마', photo:'' },
+  { id:'f09', name:'진동연마기',            model:'Vibratory Polisher VibroMet2 / Buehler',    cat:'연마', photo:'' },
+  { id:'f10', name:'글로브 박스',           model:'KIYON / KK-GB-2S',                          cat:'시편제작', photo:'' },
+  { id:'f11', name:'인장시험기',            model:'SHIMADZU / AGS-10kNXD',                     cat:'기계시험', photo:'' },
+  { id:'f12', name:'튜브로',               model:'AJEON HEATING INDUSTRIAL / AJ-SBOT3',       cat:'열처리', photo:'' },
+  { id:'f13', name:'컷팅기',               model:'Struers Accutom-5',                          cat:'시편제작', photo:'' },
+  { id:'f14', name:'전해연마',             model:'BUEHLER / ElectroMet 4 Polisher Etcher',     cat:'연마', photo:'' },
+  { id:'f15', name:'마운팅',               model:'PRESI / Mecapress 3  Ref. 53500',            cat:'시편제작', photo:'' },
+  { id:'f16', name:'3D 프린터',            model:'SKU 900-0002A',                             cat:'적층제조', photo:'' },
+  { id:'f17', name:'볼밀 CM01',            model:'Zoz GmbH / SIMOLOYER CM01',                 cat:'분말처리', photo:'' },
+  { id:'f18', name:'2축 볼밀기',           model:'2-Axis Ball Mill',                           cat:'분말처리', photo:'' },
+  { id:'f19', name:'3축 볼밀기',           model:'TENCAN / QXQM-1 Full Directional Mill',     cat:'분말처리', photo:'' },
+];
+
+const CAT_COLORS = {
+  '소결·성형':'rgba(232,83,30,0.12)',
+  '기계시험':  'rgba(55,138,221,0.12)',
+  '열처리':    'rgba(232,150,30,0.12)',
+  '시편제작':  'rgba(99,153,34,0.12)',
+  '연마':      'rgba(140,80,200,0.12)',
+  '적층제조':  'rgba(30,180,180,0.12)',
+  '분말처리':  'rgba(201,147,58,0.12)',
+};
+const CAT_TEXT = {
+  '소결·성형':'#f07840','기계시험':'#7ab9f5','열처리':'#f0a040',
+  '시편제작':'#8dc647','연마':'#b070e0','적층제조':'#40d0d0','분말처리':'#c9933a',
+};
+
+let curFacFilter = 'all';
+
+function renderFacilities() {
+  const grid = document.getElementById('facGrid');
+  if (!grid) return;
+  grid.innerHTML = FACILITIES.map(f => {
+    const bgColor  = CAT_COLORS[f.cat] || 'var(--glass-bg)';
+    const txtColor = CAT_TEXT[f.cat]   || 'var(--accent)';
+    const thumb = f.photo
+      ? `<img src="${f.photo}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+      : `<svg viewBox="0 0 64 64" fill="none" stroke="var(--border2-c)" stroke-width="1.5" width="52" height="52">
+           <rect x="8" y="14" width="48" height="36" rx="4"/>
+           <circle cx="32" cy="32" r="10"/>
+           <line x1="8" y1="26" x2="56" y2="26"/>
+         </svg>`;
+    const hidden = (curFacFilter !== 'all' && f.cat !== curFacFilter) ? 'hidden' : '';
+    return `
+    <div class="fac-card ${hidden}" data-fac-id="${f.id}" data-cat="${f.cat}">
+      <div class="fac-thumb" onclick="openFacModal('${f.id}','${f.name}')" style="cursor:pointer;position:relative;">
+        ${thumb}
+        <div style="position:absolute;top:8px;right:8px;background:${bgColor};border:1px solid ${txtColor}44;border-radius:6px;padding:2px 8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:${txtColor};">${f.cat}</div>
+        <div class="fac-photo-hint" style="position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;border-radius:4px 4px 0 0;font-size:20px;">📷</div>
+      </div>
+      <div class="fac-body">
+        <div class="fac-name">${f.name}</div>
+        <div class="fac-spec">${f.model}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // hover hint
+  grid.querySelectorAll('.fac-thumb').forEach(el => {
+    el.addEventListener('mouseenter', () => el.querySelector('.fac-photo-hint').style.opacity = '1');
+    el.addEventListener('mouseleave', () => el.querySelector('.fac-photo-hint').style.opacity = '0');
+  });
+
+  updateFacCounts();
+}
+
+function filterFac(cat, btn) {
+  curFacFilter = cat;
+  document.querySelectorAll('.fac-ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.fac-card').forEach(card => {
+    const cardCat = card.getAttribute('data-cat');
+    card.classList.toggle('hidden', cat !== 'all' && cardCat !== cat);
+  });
+  updateFacCounts();
+}
+
+function updateFacCounts() {
+  const allEl = document.getElementById('cnt-all');
+  if (allEl) allEl.textContent = FACILITIES.length;
+  // per-category counts
+  document.querySelectorAll('.fac-ftab').forEach(btn => {
+    const txt  = btn.textContent.trim().replace(/\d+/g,'').trim();
+    const cats = Object.keys(CAT_COLORS);
+    const match = cats.find(c => txt.includes(c));
+    if (match) {
+      let cnt = btn.querySelector('.fac-cnt');
+      if (!cnt) { cnt = document.createElement('span'); cnt.className = 'fac-cnt'; btn.appendChild(cnt); }
+      cnt.textContent = FACILITIES.filter(f => f.cat === match).length;
+    }
+  });
+}
+
+// Facility photo modal
+let facTargetId = null, facDataUrl = null;
+
+function openFacModal(id, name) {
+  facTargetId = id; facDataUrl = null;
+  document.getElementById('facModalTitle').textContent = name + ' — 사진 추가';
+  document.getElementById('facPreview').style.display = 'none';
+  document.getElementById('facDrop').style.display    = 'block';
+  document.getElementById('facFileInput').value = '';
+  document.getElementById('facPhotoModal').style.display = 'flex';
+}
+function facHandleDrop(e) {
+  e.preventDefault(); e.currentTarget.style.borderColor = 'var(--border2-c)';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) facLoadFile(f);
+}
+function facHandleFile(input) { if (input.files[0]) facLoadFile(input.files[0]); }
+function facLoadFile(file) {
+  const r = new FileReader();
+  r.onload = e => {
+    facDataUrl = e.target.result;
+    document.getElementById('facDrop').style.display = 'none';
+    const p = document.getElementById('facPreview');
+    p.src = facDataUrl; p.style.display = 'block';
+  };
+  r.readAsDataURL(file);
+}
+function applyFacPhoto() {
+  if (!facDataUrl) { alert('사진을 선택해주세요.'); return; }
+  const fac = FACILITIES.find(f => f.id === facTargetId);
+  if (fac) { fac.photo = facDataUrl; renderFacilities(); }
+  document.getElementById('facPhotoModal').style.display = 'none';
+}
+
+// Init facilities on load
+document.addEventListener('DOMContentLoaded', renderFacilities);
+// Also call immediately in case DOM is ready
+if (document.readyState !== 'loading') renderFacilities();
+
+</script>
+</body>
+</html>
