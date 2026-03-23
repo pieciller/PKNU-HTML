@@ -1049,7 +1049,7 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
 <!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-logo">
-    <div class="logo-hex"><span>HTM</span></div>
+    <div class="logo-hex"><span>HTML</span></div>
     <div class="nav-lab-name">
       <span class="n1" id="navLabKo">고온재료연구실</span>
       <span class="n2" id="navLabEn">Pukyong National University</span>
@@ -1611,23 +1611,6 @@ body.edit-mode [data-edit].editing { outline: 2px solid var(--border2-c); outlin
   </div>
 </div>
 
-<!-- ═══ EDITOR FAB ═══ -->
-<button class="edit-fab glass-strong" id="editFab" title="페이지 편집">
-  <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-</button>
-
-<!-- ═══ EDITOR PANEL ═══ -->
-<div class="edit-panel" id="editPanel">
-  <div class="ep-hdr">
-    <span class="ep-ttl">🛠 페이지 편집기</span>
-    <button onclick="toggleEditor()" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;">×</button>
-  </div>
-  <div class="ep-tabs">
-    <button class="ep-tab active" onclick="switchTab('content',this)">콘텐츠</button>
-    <button class="ep-tab" onclick="switchTab('images',this)">사진</button>
-    <button class="ep-tab" onclick="switchTab('style',this)">스타일</button>
-    <button class="ep-tab" onclick="switchTab('3d',this)">3D</button>
-  </div>
   <div class="ep-body">
 
     <!-- CONTENT TAB -->
