@@ -220,7 +220,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
   </div>
   <div class="footer-right">
     <div>Tel: 051-629-6359</div>
-    <div><a href="mailto:nohssang@pknu.ac.kr" style="color:var(--text2);">nohssang@pknu.ac.kr</a></div>
+    <div><a href="/cdn-cgi/l/email-protection#3d5352554e4e5c535a7d4d565348135c5e13564f" style="color:var(--text2);"><span class="__cf_email__" data-cfemail="b0dedfd8c3c3d1ded7f0c0dbdec59ed1d39edbc2">[email&#160;protected]</span></a></div>
     <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
   </div>
 </footer>
@@ -248,7 +248,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let theme=localStorage.getItem('htm-theme')||'dark';
 document.documentElement.setAttribute('data-theme',theme);
 function toggleTheme(){theme=theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('htm-theme',theme);syncIcon();}
@@ -257,7 +257,7 @@ syncIcon();
 
 // ── 실제 구성원 데이터 (엑셀 원본 반영) ──
 let members=[
-  {id:1, name:'노상훈', nameEn:'Sanghoon Noh', role:'professor', email:'nohssang@pknu.ac.kr', photo:'',
+  {id:1, name:'노상훈', nameEn:'Sanghoon Noh', role:'professor', email:'nohssang@pknu.ac.kr', photo:'노상훈 교수님 사진.jpg',
    bio:'국립부경대학교 고온재료연구실 지도교수. 한국원자력연구원(KAERI) 선임연구원, 일본원자력연구개발기구(JAEA) 박사후연구원 역임.',
    dept:'융합소재공학부 재료공학전공', research:'고성능 내열합금 · ODS 합금 · 분말야금 · 구조부품 접합'},
   {id:2, name:'김대식', nameEn:'Deasik Kim',      role:'ms', email:'d0916s@pukyong.ac.kr',    photo:'', bio:'', dept:'재료공학전공', research:''},
@@ -388,10 +388,4 @@ function pmLoad(input){if(input.files[0])pmLoadFile(input.files[0]);}
 function pmLoadFile(file){const r=new FileReader();r.onload=e=>{pmDataUrl=e.target.result;document.getElementById('pmDrop').style.display='none';const p=document.getElementById('pmPreview');p.src=pmDataUrl;p.style.display='block';};r.readAsDataURL(file);}
 function applyPm(){if(!pmDataUrl){alert('사진을 선택해주세요.');return;}const m=members.find(x=>x.id===pmTargetId);if(m){m.photo=pmDataUrl;render();toast('프로필 사진이 업데이트되었습니다.');}closePm();}
 
-function showStatus(msg,type){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+type;el.style.display='block';setTimeout(()=>{el.style.display='none';},4000);}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-
-render();
-</script>
-</body>
-</html>
+function showStatus(msg,type){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+type;el.style.display='blo
