@@ -129,7 +129,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
 </style>
 </head>
 <body>
-
+ 
 <nav>
   <a href="index.html" class="nav-logo">
     <div class="logo-hex"><span>HTM</span></div>
@@ -151,7 +151,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
     <a href="index.html#contact" class="glass-strong" style="padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);display:inline-flex;align-items:center;">Contact</a>
   </div>
 </nav>
-
+ 
 <div class="page-header">
   <div class="ph-tag">고온재료연구실 · PKNU</div>
   <h1 class="ph-h1">LAB<br>MEMBERS</h1>
@@ -161,9 +161,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
     <div class="ph-stat"><div class="ph-stat-num" id="statUg">10</div><div class="ph-stat-lbl">Undergraduate</div></div>
   </div>
 </div>
-
+ 
 <div class="divider"></div>
-
+ 
 <div class="page-main">
   <div class="excel-bar glass">
     <div class="excel-icon">📊</div>
@@ -184,7 +184,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
   </div>
   <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" onchange="handleExcel(this)">
   <div class="upload-status" id="uploadStatus"></div>
-
+ 
   <div class="filter-row">
     <button class="ftab active" onclick="setFilter('all',this)">전체</button>
     <button class="ftab" onclick="setFilter('professor',this)">교수</button>
@@ -192,9 +192,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
     <button class="ftab" onclick="setFilter('undergrad',this)">학부연구생</button>
     <button class="ftab" onclick="setFilter('alumni',this)">졸업생</button>
   </div>
-
+ 
   <div id="membersArea"></div>
-
+ 
   <div class="recruit-card">
     <div class="recruit-icon">🔬</div>
     <div class="recruit-text">
@@ -204,9 +204,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
     <button class="recruit-btn" onclick="location.href='mailto:nohssang@pknu.ac.kr'">지원 문의</button>
   </div>
 </div>
-
+ 
 <div class="divider"></div>
-
+ 
 <footer>
   <div>
     <div class="footer-lab">HIGH TEMPERATURE MATERIALS LAB.</div>
@@ -224,7 +224,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
     <div style="margin-top:6px;">© 2025 Son Yujun. All rights reserved.</div>
   </div>
 </footer>
-
+ 
 <div class="photo-modal" id="photoModal">
   <div class="pm-inner">
     <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">프로필 사진</div>
@@ -247,14 +247,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border-c);padding:44px 8
   </div>
 </div>
 <div class="toast" id="toast"></div>
-
+ 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let theme=localStorage.getItem('htm-theme')||'dark';
 document.documentElement.setAttribute('data-theme',theme);
 function toggleTheme(){theme=theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('htm-theme',theme);syncIcon();}
 function syncIcon(){const m='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z';const s='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 000 14 7 7 0 000-14z';document.getElementById('themeIcon').querySelector('path').setAttribute('d',theme==='dark'?m:s);document.getElementById('themeLabel').textContent=theme==='dark'?'라이트':'다크';}
 syncIcon();
-
+ 
 // ── 실제 구성원 데이터 (엑셀 원본 반영) ──
 let members=[
   {id:1, name:'노상훈', nameEn:'Sanghoon Noh', role:'professor', email:'nohssang@pknu.ac.kr', photo:'노상훈 교수님 사진.jpg',
@@ -275,7 +275,7 @@ let members=[
   {id:14,name:'권희정', nameEn:'Kwon Hee Jung',    role:'undergrad', email:'kwonheejjjj@gmail.com',   photo:'', bio:'', dept:'재료공학전공', research:''},
 ];
 let nextId=20, curFilter='all', pmTargetId=null, pmDataUrl=null;
-
+ 
 function render(){
   const area=document.getElementById('membersArea');
   const list=curFilter==='all'?members:members.filter(m=>m.role===curFilter);
@@ -302,11 +302,11 @@ function render(){
   if(!html) html=`<div style="text-align:center;padding:60px;color:var(--text3);font-family:var(--mono);font-size:11px;text-transform:uppercase;">구성원이 없습니다</div>`;
   area.innerHTML=html;
 }
-
+ 
 function block(title,list){
   return `<div class="member-block"><div class="sec-heading"><span class="sec-h">${title}</span><span class="sec-cnt">${list.length}명</span></div><div class="mg">${list.map(renderCard).join('')}</div></div>`;
 }
-
+ 
 function renderProf(p){
   const av=p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;">`:p.name.charAt(0);
   return `<div class="prof-card glass-strong">
@@ -329,7 +329,7 @@ function renderProf(p){
     </div>
   </div>`;
 }
-
+ 
 function renderCard(m){
   const isMs=m.role==='ms'||m.role==='phd';
   const badgeCls=isMs?'badge-ms':'badge-ug';
@@ -350,9 +350,9 @@ function renderCard(m){
     </div>
   </div>`;
 }
-
+ 
 function setFilter(f,btn){curFilter=f;document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');render();}
-
+ 
 function handleExcel(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
@@ -373,19 +373,25 @@ function handleExcel(input){
   };
   reader.readAsArrayBuffer(file);input.value='';
 }
-
+ 
 function downloadTemplate(){
   const data=[['구분','이름','영문 이름','이메일','연구분야','소속'],['석사','홍길동','Hong Gil-dong','hong@pknu.ac.kr','ODS 합금','재료공학전공'],['학사','김철수','Kim Cheol-su','kim@pknu.ac.kr','초내열합금','재료공학전공'],['졸업','이졸업','Lee Jol-eop','lee@gmail.com','분말야금','재료공학전공']];
   const ws=XLSX.utils.aoa_to_sheet(data);ws['!cols']=[{wch:12},{wch:14},{wch:20},{wch:26},{wch:20},{wch:16}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'구성원');XLSX.writeFile(wb,'HTM_lab_members_template.xlsx');
   toast('양식 파일이 다운로드되었습니다.');
 }
-
+ 
 function openPm(id,name){pmTargetId=id;pmDataUrl=null;document.getElementById('pmTitle').textContent=name+' — 사진 변경';document.getElementById('pmPreview').style.display='none';document.getElementById('pmDrop').style.display='block';document.getElementById('pmFile').value='';document.getElementById('photoModal').style.display='flex';}
 function closePm(){document.getElementById('photoModal').style.display='none';}
 function pmDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))pmLoadFile(f);}
 function pmLoad(input){if(input.files[0])pmLoadFile(input.files[0]);}
 function pmLoadFile(file){const r=new FileReader();r.onload=e=>{pmDataUrl=e.target.result;document.getElementById('pmDrop').style.display='none';const p=document.getElementById('pmPreview');p.src=pmDataUrl;p.style.display='block';};r.readAsDataURL(file);}
 function applyPm(){if(!pmDataUrl){alert('사진을 선택해주세요.');return;}const m=members.find(x=>x.id===pmTargetId);if(m){m.photo=pmDataUrl;render();toast('프로필 사진이 업데이트되었습니다.');}closePm();}
-
-function showStatus(msg,type){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+type;el.style.display='blo
+ 
+function showStatus(msg,type){const el=document.getElementById('uploadStatus');el.textContent=msg;el.className='upload-status '+type;el.style.display='block';setTimeout(()=>{el.style.display='none';},4000);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+ 
+render();
+</script>
+</body>
+</html>
